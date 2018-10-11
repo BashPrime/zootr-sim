@@ -308,10 +308,12 @@ $(function() {
       updateMedallions();
       $('#files').hide();
       $('#reset').show();
+      $('#undo').show();
     }
   });
   
   $('#reset').hide();
+  $('#undo').hide();
   
   var fileInput = $('#files');
   
@@ -365,6 +367,7 @@ $(function() {
           updateForage();
           $('#files').hide();
           $('#reset').show();
+          $('#undo').show();
         }
         catch(err) {
           console.log(err);
@@ -586,6 +589,7 @@ $(function() {
     $('.route span').remove();
     $('.route br').remove();
     $('.lastchecked span').remove();
+    $('#undo').hide();
     $('#reset').hide();
     $('#files').show();
   });
