@@ -11,7 +11,7 @@ function getInitialState() {
     currentItemsAll: [],
     currentItemsImportant: [],
     
-    chuCount: 0,
+    usedChus: 0,
     
     numChecksMade: 0,
     totalChecks: 0,
@@ -424,8 +424,13 @@ $(function() {
     $('<div class="dungeons"></div>').appendTo('.tracker');
     drawDungeons();
     $('<br/><br/><span>' + state.numChecksMade + '/' + state.totalChecks + ' checks made</span>').appendTo('.tracker');
-    if (state.chuCount > 0) {
-      $('<br/><br/><span>Bombchus: ' + state.chuCount + '</span> <a class="useChu">Use Bombchu</a>').appendTo('.tracker');
+    ownedChus = state.currentItemsAll.filter(item => item.includes('Bombchus'));
+    chuCount = ownedChus.map(item => parseInt(item.substring(item.lastIndexOf('(') + 1, item.lastIndexOf(')')), 10)).reduce((a,b) => a + b, 0);
+    if (state.usedChus > chuCount) {
+      state.usedChus = chuCount;
+    }
+    if (chuCount > 0) {
+      $('<br/><br/><span>Bombchus: ' + (chuCount - state.usedChus) + '</span> <a class="useChu">Use Bombchu</a>').appendTo('.tracker');
     }
     if (state.lighthint != '') {
       $('<br/><br/><span>Light Arrows Hint: ' + state.lighthint + '</span>').appendTo('.tracker');
@@ -445,7 +450,7 @@ $(function() {
   };
 
   $(document).on('click', 'a.useChu', function(event) {
-    chuCount--;
+    state.usedChus++;
     updateCollected();
     updateForage();
   });
@@ -499,10 +504,6 @@ $(function() {
       state.checkedLocations.push(event.target.id);
       item = state.testSpoiler[event.target.id];
       state.currentItemsAll.push(item);
-      if (item.includes('Bombchus')) {
-        count = parseInt(item.substring(item.lastIndexOf('(') + 1, item.lastIndexOf(')')), 10);
-        state.chuCount += count;
-      }
       if ($.inArray(item, importantItems) != -1) {
         state.currentItemsImportant.push(item);
       }
