@@ -52,10 +52,10 @@ function getImage(item, count) {
   if (item == 'Bottle') {
     var bottles = 0;
     var hasLetter = false;
-    for (var i = 0; i < currentItemsAll.length; i++) {
-      if (currentItemsAll[i].startsWith('Bottle')) {
+    for (var i = 0; i < state.currentItemsAll.length; i++) {
+      if (state.currentItemsAll[i].startsWith('Bottle')) {
         bottles++;
-        if (currentItemsAll[i] == 'Bottle with Letter') {
+        if (state.currentItemsAll[i] == 'Bottle with Letter') {
           hasLetter = true;
         }
       }
@@ -64,64 +64,64 @@ function getImage(item, count) {
   }
   else if (item == 'Child Trade') {
     retval = [];
-    if ($.inArray('Weird Egg', currentItemsAll) == -1) {
+    if ($.inArray('Weird Egg', state.currentItemsAll) == -1) {
       return ['egg.png', false];
     }
-    if ($.inArray('Weird Egg', currentItemsAll) != -1) {
+    if ($.inArray('Weird Egg', state.currentItemsAll) != -1) {
       retval = ['egg.png', true];
     }
-    if ($.inArray('Chicken', currentItemsAll) != -1) {
+    if ($.inArray('Chicken', state.currentItemsAll) != -1) {
       retval = ['cucco.png', true];
     }
-    if ($.inArray('Zeldas Letter', currentItemsAll) != -1) {
+    if ($.inArray('Zeldas Letter', state.currentItemsAll) != -1) {
       retval = ['letter.png', true];
     }
-    if ($.inArray('Keaton Mask', currentItemsAll) != -1) {
+    if ($.inArray('Keaton Mask', state.currentItemsAll) != -1) {
       retval = ['keaton.png', true];
     }
-    if ($.inArray('Skull Mask', currentItemsAll) != -1) {
+    if ($.inArray('Skull Mask', state.currentItemsAll) != -1) {
       retval = ['skull.png', true];
     }
-    if ($.inArray('Spooky Mask', currentItemsAll) != -1) {
+    if ($.inArray('Spooky Mask', state.currentItemsAll) != -1) {
       retval = ['spooky.png', true];
     }
-    if ($.inArray('Bunny Hood', currentItemsAll) != -1) {
+    if ($.inArray('Bunny Hood', state.currentItemsAll) != -1) {
       retval = ['bunny.png', true];
     }
-    if ($.inArray('Mask of Truth', currentItemsAll) != -1) {
+    if ($.inArray('Mask of Truth', state.currentItemsAll) != -1) {
       retval = ['truth.png', true];
     }
     return retval;
   }
   else if (item == 'Adult Trade') {
-    if ($.inArray('Claim Check', currentItemsAll) != -1) {
+    if ($.inArray('Claim Check', state.currentItemsAll) != -1) {
       return ['claim.png', true];
     }
-    if ($.inArray('Eyedrops', currentItemsAll) != -1) {
+    if ($.inArray('Eyedrops', state.currentItemsAll) != -1) {
       return ['eyedrops.png', true];
     }
-    if ($.inArray('Eyeball Frog', currentItemsAll) != -1) {
+    if ($.inArray('Eyeball Frog', state.currentItemsAll) != -1) {
       return ['frog.png', true];
     }
-    if ($.inArray('Prescription', currentItemsAll) != -1) {
+    if ($.inArray('Prescription', state.currentItemsAll) != -1) {
       return ['prescription.png', true];
     }
-    if ($.inArray('Broken Sword', currentItemsAll) != -1) {
+    if ($.inArray('Broken Sword', state.currentItemsAll) != -1) {
       return ['broken_sword.png', true];
     }
-    if ($.inArray('Poachers Saw', currentItemsAll) != -1) {
+    if ($.inArray('Poachers Saw', state.currentItemsAll) != -1) {
       return ['saw.png', true];
     }
-    if ($.inArray('Odd Mushroom', currentItemsAll) != -1) {
+    if ($.inArray('Odd Mushroom', state.currentItemsAll) != -1) {
       return ['mushroom.png', true];
     }
-    if ($.inArray('Cojiro', currentItemsAll) != -1) {
+    if ($.inArray('Cojiro', state.currentItemsAll) != -1) {
       return ['cojiro.png', true];
     }
-    if ($.inArray('Pocket Cucco', currentItemsAll) != -1) {
+    if ($.inArray('Pocket Cucco', state.currentItemsAll) != -1) {
       return ['cucco.png', true];
     }
-    if ($.inArray('Pocket Egg', currentItemsAll) != -1) {
+    if ($.inArray('Pocket Egg', state.currentItemsAll) != -1) {
       return ['egg.png', true];
     }
     else {
@@ -137,7 +137,7 @@ function getImage(item, count) {
 }
 
 function drawItems() {
-  var counts = currentItemsAll.reduce(function (acc, curr) {
+  var counts = state.currentItemsAll.reduce(function (acc, curr) {
     if (typeof acc[curr] == 'undefined') {
       acc[curr] = 1;
     } 

@@ -1,6 +1,6 @@
 function has(item) {
-  ret = $.inArray(item, currentItems);
-  return $.inArray(item, currentItems) != -1;
+  ret = $.inArray(item, state.currentItems);
+  return $.inArray(item, state.currentItems) != -1;
 }
 
 function has_ocarina() {

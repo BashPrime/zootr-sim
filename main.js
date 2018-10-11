@@ -1,20 +1,44 @@
-var playing = false;
-var currentRegion = 'Kokiri Forest';
+function getInitialState() {
+  return {
+    playing: false,
+    currentRegion: 'Kokiri Forest',
+    
+    currentChild: 1,
+    currentAdult: 0,
+    
+    currentAge: 'Child',
+    
+    currentItemsAll: [],
+    currentItemsImportant: [],
+    
+    chuCount: 0,
+    
+    numChecksMade: 0,
+    totalChecks: 0,
+    
+    testSpoiler: {},
+  
+    checkedLocations: [],
+    
+    medallions: {},
+    
+    lighthint: '',
+    
+    knownMedallions: {
+      'Deku Tree': '???',
+      'Dodongos Cavern': '???',
+      'Jabu Jabus Belly': '???',
+      'Forest Temple': '???',
+      'Fire Temple': '???',
+      'Water Temple': '???',
+      'Shadow Temple': '???',
+      'Spirit Temple': '???',
+      'Free': '???',
+    },
+  };
+}
 
-var currentChild = 1;
-var currentAdult = 0;
-
-var currentAge = 'Child';
-
-var currentItemsAll = [];
-var currentItemsImportant = [];
-
-var chuCount = 0;
-
-var numChecksMade = 0;
-var totalChecks = 0;
-
-var testSpoiler = {};
+var state = getInitialState();
 
 var importantItems = [
   'Bow',
@@ -116,22 +140,6 @@ var importantItems = [
   'Triforce',
 ];
 
-var medallions = {};
-
-var lighthint = '';
-
-var knownMedallions = {
-  'Deku Tree': '???',
-  'Dodongos Cavern': '???',
-  'Jabu Jabus Belly': '???',
-  'Forest Temple': '???',
-  'Fire Temple': '???',
-  'Water Temple': '???',
-  'Shadow Temple': '???',
-  'Spirit Temple': '???',
-  'Free': '???',
-};
-
 var warpSongs = ['Minuet of Forest', 'Bolero of Fire', 'Serenade of Water', 'Nocturne of Shadow', 'Requiem of Spirit', 'Prelude of Light'];
 
 var songTargets = {
@@ -167,7 +175,7 @@ var regionChangingChecks = {
   'Twinrova': 'Desert Colossus',
 };
 
-var checkedLocations = [];
+
 
 var locationsByRegionChild = {
   'Kokiri Forest': ['Kokiri Sword Chest', 'Mido Chest Top Left', 'Mido Chest Top Right', 'Mido Chest Bottom Left', 'Mido Chest Bottom Right', 'Kokiri Forest Storms Grotto Chest'],
@@ -291,24 +299,13 @@ var entrancesByRegionAdult = {
 
 $(function() {  
   
-  localforage.getItem('playing', function (err, val) {
-    playing = val;
-    if (val) {
-      localforage.getItem('currentRegion', (err, val) => { currentRegion = val; updateAccessible(); });
-      localforage.getItem('currentChild', (err, val) => currentChild = val);
-      localforage.getItem('currentAdult', (err, val) => currentAdult = val);
-      localforage.getItem('currentAge', (err, val) => { currentAge = val; updateAccessible(); });
-      localforage.getItem('currentItemsAll', (err,val) => currentItemsAll = val);
-      localforage.getItem('currentItemsImportant', (err, val) => { currentItemsImportant = val; updateAccessible(); updateCollected(); updateMedallions(); });
-      localforage.getItem('spoiler', (err, val) => testSpoiler = val);
-      localforage.getItem('medallions', (err, val) => medallions = val);
-      localforage.getItem('lighthint', (err, val) => lighthint = val);
-      localforage.getItem('knownMedallions', (err, val) => { knownMedallions = val; updateMedallions() });
-      localforage.getItem('checkedLocations', (err, val) => { checkedLocations = val; updateAccessible() });
-      localforage.getItem('chuCount', (err, val) => { chuCount = val; updateCollected() });
-      localforage.getItem('numChecksMade', (err, val) => { numChecksMade = val; updateCollected(); });
-      localforage.getItem('totalChecks', (err, val) => { totalChecks = val; updateCollected(); });
+  localforage.getItem('state', function (err, val) {
+    if (val && val.playing) {
+      state = val;
       localforage.getItem('route', (err, val) => $('.route').html(val));
+      updateAccessible();
+      updateCollected();
+      updateMedallions();
       $('#files').hide();
       $('#reset').show();
     }
@@ -341,27 +338,27 @@ $(function() {
       if (file && file.length) {
         try {
           results = file.split("Locations:")[1].split("Playthrough:")[0].split('\n').filter(el => el.trim() != "");
-          totalChecks = results.length;
+          state.totalChecks = results.length;
           for (var i = 0; i < results.length; i++) {
             loc = results[i].split(':')[0].trim();
             item = results[i].split(':')[1].trim();
-            testSpoiler[loc] = item;
+            state.testSpoiler[loc] = item;
           }
-          checkedLocations.push('Links Pocket');
-          currentItemsAll.push(testSpoiler['Links Pocket']);
-          numChecksMade++;
-          knownMedallions['Free'] = testSpoiler['Links Pocket'];
-          medallions['Free'] = testSpoiler['Links Pocket'];
-          medallions['Deku Tree'] = testSpoiler['Queen Gohma'];
-          medallions['Dodongos Cavern'] = testSpoiler['King Dodongo'];
-          medallions['Jabu Jabus Belly'] = testSpoiler['Barinade'];
-          medallions['Forest Temple'] = testSpoiler['Phantom Ganon'];
-          medallions['Fire Temple'] = testSpoiler['Volvagia'];
-          medallions['Water Temple'] = testSpoiler['Morpha'];
-          medallions['Shadow Temple'] = testSpoiler['Bongo Bongo'];
-          medallions['Spirit Temple'] = testSpoiler['Twinrova'];
-          $('<span>---- CHILD ' + currentChild + ' ----</span><br/><br/>').appendTo('.route');
-          playing = true;
+          state.checkedLocations.push('Links Pocket');
+          state.currentItemsAll.push(state.testSpoiler['Links Pocket']);
+          state.numChecksMade++;
+          state.knownMedallions['Free'] = state.testSpoiler['Links Pocket'];
+          state.medallions['Free'] = state.testSpoiler['Links Pocket'];
+          state.medallions['Deku Tree'] = state.testSpoiler['Queen Gohma'];
+          state.medallions['Dodongos Cavern'] = state.testSpoiler['King Dodongo'];
+          state.medallions['Jabu Jabus Belly'] = state.testSpoiler['Barinade'];
+          state.medallions['Forest Temple'] = state.testSpoiler['Phantom Ganon'];
+          state.medallions['Fire Temple'] = state.testSpoiler['Volvagia'];
+          state.medallions['Water Temple'] = state.testSpoiler['Morpha'];
+          state.medallions['Shadow Temple'] = state.testSpoiler['Bongo Bongo'];
+          state.medallions['Spirit Temple'] = state.testSpoiler['Twinrova'];
+          $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
+          state.playing = true;
           updateAccessible();
           updateCollected();
           updateMedallions();
@@ -381,12 +378,12 @@ $(function() {
     $('.current a').remove();
     $('.current br').remove();
     $('.current span').remove();
-    $('<p>Current Region: ' + currentRegion + ' [' + currentAge + ']</p>').appendTo('.current');
-    locations = currentAge == 'Child' ? locationsByRegionChild : locationsByRegionAdult;
-    entrances = currentAge == 'Child' ? entrancesByRegionChild : entrancesByRegionAdult;
-    for (var i = 0; i < locations[currentRegion].length; i++) {
-      key = locations[currentRegion][i];
-      if ($.inArray(key, checkedLocations) == -1) {
+    $('<p>Current Region: ' + state.currentRegion + ' [' + state.currentAge + ']</p>').appendTo('.current');
+    locations = state.currentAge == 'Child' ? locationsByRegionChild : locationsByRegionAdult;
+    entrances = state.currentAge == 'Child' ? entrancesByRegionChild : entrancesByRegionAdult;
+    for (var i = 0; i < locations[state.currentRegion].length; i++) {
+      key = locations[state.currentRegion][i];
+      if ($.inArray(key, state.checkedLocations) == -1) {
         //if (!(key in logicDict) || logicDict[key]()) {
         if (true) {
           $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.current');
@@ -396,17 +393,17 @@ $(function() {
         $('<span class="location checked" id="' + key + '">' + key + '</span><br/>').appendTo('.current');
       }
     }
-    if (locations[currentRegion].length > 0) {
+    if (locations[state.currentRegion].length > 0) {
       $('<br/>').appendTo('.current');
     }
-    for (var i = 0; i < entrances[currentRegion].length; i++) {
-      key = entrances[currentRegion][i];
+    for (var i = 0; i < entrances[state.currentRegion].length; i++) {
+      key = entrances[state.currentRegion][i];
     //  if (!(key in logicDict) || logicDict[key]()) {
       if (true) {
         $('<a class="entrance" id="' + key + '">To ' + key + '</a><br/>').appendTo('.current');
       }
     }
-    collectedWarps = currentItemsAll.filter(value => -1 !== warpSongs.indexOf(value));
+    collectedWarps = state.currentItemsAll.filter(value => -1 !== warpSongs.indexOf(value));
     for (var i = 0; i < collectedWarps.length; i++)
     {
       if (i == 0) {
@@ -414,7 +411,7 @@ $(function() {
       }
       $('<a class="entrance" id="' + collectedWarps[i] + '">Play ' + collectedWarps[i] + '</a><br/>').appendTo('.current');
     }
-    $('<br/><a class="entrance" id="Savewarp ' + currentAge  + '">Savewarp to ' + (currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.current');
+    $('<br/><a class="entrance" id="Savewarp ' + state.currentAge  + '">Savewarp to ' + (state.currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.current');
   };
   
   var updateCollected = function() {
@@ -426,12 +423,12 @@ $(function() {
     drawItems();
     $('<div class="dungeons"></div>').appendTo('.tracker');
     drawDungeons();
-    $('<br/><br/><span>' + numChecksMade + '/' + totalChecks + ' checks made</span>').appendTo('.tracker');
-    if (chuCount > 0) {
-      $('<br/><br/><span>Bombchus: ' + chuCount + '</span> <a class="useChu">Use Bombchu</a>').appendTo('.tracker');
+    $('<br/><br/><span>' + state.numChecksMade + '/' + state.totalChecks + ' checks made</span>').appendTo('.tracker');
+    if (state.chuCount > 0) {
+      $('<br/><br/><span>Bombchus: ' + state.chuCount + '</span> <a class="useChu">Use Bombchu</a>').appendTo('.tracker');
     }
-    if (lighthint != '') {
-      $('<br/><br/><span>Light Arrows Hint: ' + lighthint + '</span>').appendTo('.tracker');
+    if (state.lighthint != '') {
+      $('<br/><br/><span>Light Arrows Hint: ' + state.lighthint + '</span>').appendTo('.tracker');
     }
   };
   
@@ -443,21 +440,7 @@ $(function() {
   };
   
   var updateForage = function() {
-    localforage.setItem('playing', playing);
-    localforage.setItem('currentRegion', currentRegion);
-    localforage.setItem('currentChild', currentChild);
-    localforage.setItem('currentAdult', currentAdult);
-    localforage.setItem('currentAge', currentAge);
-    localforage.setItem('currentItemsAll', currentItemsAll);
-    localforage.setItem('currentItemsImportant', currentItemsImportant);
-    localforage.setItem('spoiler', testSpoiler);
-    localforage.setItem('medallions', medallions);
-    localforage.setItem('knownMedallions', knownMedallions);
-    localforage.setItem('checkedLocations', checkedLocations);
-    localforage.setItem('chuCount', chuCount);
-    localforage.setItem('numChecksMade', numChecksMade);
-    localforage.setItem('totalChecks', totalChecks);
-    localforage.setItem('lighthint', lighthint);
+    localforage.setItem('state', state);
     localforage.setItem('route', $('.route').html());
   };
 
@@ -469,15 +452,15 @@ $(function() {
   
   $(document).on('click', 'a.location', function(event) {
     if (event.target.id.startsWith('Check Pedestal')) {
-      checkedLocations.push(event.target.id);
-      if (currentAge == 'Adult') {
-        checkedLocations.push('Check Pedestal (Stones)');
+      state.checkedLocations.push(event.target.id);
+      if (state.currentAge == 'Adult') {
+        state.checkedLocations.push('Check Pedestal (Stones)');
       }
-      for (var key in medallions) {
-        if ($.inArray(medallions[key], currentItemsAll) == -1) {
-          if (medallions[key].includes('Medallion')) {
-            if (currentAge == 'Adult') {
-              knownMedallions[key] = medallions[key];
+      for (var key in state.medallions) {
+        if ($.inArray(state.medallions[key], state.currentItemsAll) == -1) {
+          if (state.medallions[key].includes('Medallion')) {
+            if (state.currentAge == 'Adult') {
+              state.knownMedallions[key] = state.medallions[key];
             }
           }
           else {
@@ -487,16 +470,16 @@ $(function() {
       }
     }
     else if (event.target.id == 'Light Arrows Hint') {
-      checkedLocations.push(event.target.id);
-      lightlocation = Object.keys(testSpoiler).find(key => testSpoiler[key] === 'Light Arrows');
-      lighthint = Object.keys(locationsByRegionAdult).find(key => $.inArray(lightlocation, locationsByRegionAdult[key]) != -1);
-      if (typeof lighthint == 'undefined') {
-        lighthint = Object.keys(locationsByRegionChild).find(key => $.inArray(lightlocation, locationsByRegionChild[key]) != -1);
+      state.checkedLocations.push(event.target.id);
+      lightlocation = Object.keys(state.testSpoiler).find(key => state.testSpoiler[key] === 'Light Arrows');
+      state.lighthint = Object.keys(locationsByRegionAdult).find(key => $.inArray(lightlocation, locationsByRegionAdult[key]) != -1);
+      if (typeof state.lighthint == 'undefined') {
+        state.lighthint = Object.keys(locationsByRegionChild).find(key => $.inArray(lightlocation, locationsByRegionChild[key]) != -1);
       }
-      $('<span>Light Arrows Hint ('+lighthint+')</span><br/>').appendTo('.route');
+      $('<span>Light Arrows Hint ('+state.lighthint+')</span><br/>').appendTo('.route');
     }
     else if (event.target.id == 'Ganon') {
-      if ($.inArray('Light Arrows', currentItemsAll) == -1) {
+      if ($.inArray('Light Arrows', state.currentItemsAll) == -1) {
         $('.lastchecked span').remove();
         $('<span>Not without Light Arrows!</span>').appendTo('.lastchecked');
       }
@@ -504,31 +487,31 @@ $(function() {
         $('.lastchecked span').remove();
         $('<span>Congratulations!</span>').appendTo('.lastchecked');
         $('<span>Ganon (Triforce)</span><br/><br/>').appendTo('.route');
-        $('<span>Total Checks Made: '+numChecksMade+'/'+totalChecks+'</span><br/>').appendTo('.route');
+        $('<span>Total Checks Made: '+state.numChecksMade+'/'+state.totalChecks+'</span><br/>').appendTo('.route');
       }
     }
     else
     {
-      numChecksMade++;
+      state.numChecksMade++;
       if (event.target.id in bosses) {
-        knownMedallions[bosses[event.target.id]] = testSpoiler[event.target.id];
+        state.knownMedallions[bosses[event.target.id]] = state.testSpoiler[event.target.id];
       }
-      checkedLocations.push(event.target.id);
-      item = testSpoiler[event.target.id];
-      currentItemsAll.push(item);
+      state.checkedLocations.push(event.target.id);
+      item = state.testSpoiler[event.target.id];
+      state.currentItemsAll.push(item);
       if (item.includes('Bombchus')) {
         count = parseInt(item.substring(item.lastIndexOf('(') + 1, item.lastIndexOf(')')), 10);
-        chuCount += count;
+        state.chuCount += count;
       }
       if ($.inArray(item, importantItems) != -1) {
-        currentItemsImportant.push(item);
+        state.currentItemsImportant.push(item);
       }
       toAppend = '<span>' + event.target.id + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '</span><br/>';
       $(toAppend).appendTo('.route');
       $('.lastchecked span').remove();
       $('<span>' + event.target.id + ': ' + item + '</span>').appendTo('.lastchecked');
       if (event.target.id in regionChangingChecks) {
-        currentRegion = regionChangingChecks[event.target.id];
+        state.currentRegion = regionChangingChecks[event.target.id];
       }
     }
     
@@ -540,43 +523,43 @@ $(function() {
   
   $(document).on('click', 'a.entrance', function(event) {
     if (event.target.id == 'Pull Master Sword') {
-      currentAdult++;
-      $('<br/><span>---- ADULT ' + currentAdult + ' ----</span><br/><br/>').appendTo('.route');
-      currentAge = 'Adult';
+      state.currentAdult++;
+      $('<br/><span>---- ADULT ' + state.currentAdult + ' ----</span><br/><br/>').appendTo('.route');
+      state.currentAge = 'Adult';
     }
     else if (event.target.id == 'Place Master Sword') {
-      currentChild++;
-      $('<br/><span>---- CHILD ' + currentChild + ' ----</span><br/><br/>').appendTo('.route');
-      currentAge = 'Child';
+      state.currentChild++;
+      $('<br/><span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
+      state.currentAge = 'Child';
     }
     else if (event.target.id == 'Savewarp Child') {
-      currentRegion = 'Kokiri Forest';
+      state.currentRegion = 'Kokiri Forest';
       $('<span>Savewarp</span><br/>').appendTo('.route');
     }
     else if (event.target.id == 'Savewarp Adult') {
-      currentRegion = 'Temple of Time';
+      state.currentRegion = 'Temple of Time';
       $('<span>Savewarp</span><br/>').appendTo('.route');
     }
     else if (event.target.id in songTargets) {
-      currentRegion = songTargets[event.target.id];
+      state.currentRegion = songTargets[event.target.id];
       $('<span>Play '+event.target.id+'</span><br/>').appendTo('.route');
     }
-    else if (currentRegion == 'Kokiri Forest' && event.target.id == 'Hyrule Field' && currentAge == 'Child' && $.inArray('Gift from Saria', checkedLocations) == -1) {
-      checkedLocations.push('Gift from Saria');
-      item = testSpoiler['Gift from Saria'];
-      currentItemsAll.push(item);
+    else if (state.currentRegion == 'Kokiri Forest' && event.target.id == 'Hyrule Field' && state.currentAge == 'Child' && $.inArray('Gift from Saria', state.checkedLocations) == -1) {
+      state.checkedLocations.push('Gift from Saria');
+      item = state.testSpoiler['Gift from Saria'];
+      state.currentItemsAll.push(item);
       if ($.inArray(item, importantItems) != -1) {
-        currentItemsImportant.push(item);
+        state.currentItemsImportant.push(item);
       }
-      numChecksMade++;
+      state.numChecksMade++;
       toAppend = '<span>' + 'Gift from Saria' + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '</span><br/>';
       $(toAppend).appendTo('.route');
       $('.lastchecked span').remove();
       $('<span>' + 'Gift from Saria' + ': ' + item + '</span>').appendTo('.lastchecked');
-      currentRegion = event.target.id;
+      state.currentRegion = event.target.id;
     }
     else {
-      currentRegion = event.target.id;
+      state.currentRegion = event.target.id;
     }
     updateAccessible();
     updateCollected();
@@ -585,31 +568,7 @@ $(function() {
   });
   
   $(document).on('click', '#reset', function(event) {
-    currentRegion = 'Kokiri Forest';
-    currentChild = 1;
-    currentAdult = 0;
-    currentAge = 'Child';
-    currentItemsAll = [];
-    currentItemsImportant = [];
-    testSpoiler = {};
-    medallions = {};
-    knownMedallions = {
-      'Deku Tree': '???',
-      'Dodongos Cavern': '???',
-      'Jabu Jabus Belly': '???',
-      'Forest Temple': '???',
-      'Fire Temple': '???',
-      'Water Temple': '???',
-      'Shadow Temple': '???',
-      'Spirit Temple': '???',
-      'Free': '???',
-    };
-    checkedLocations = [];
-    numChecksMade = 0;
-    chuCount = 0;
-    totalChecks = 0;
-    playing = false;
-    lighthint = '';
+    state = getInitialState();
     updateForage();
     $('.current a').remove();
     $('.current span').remove();

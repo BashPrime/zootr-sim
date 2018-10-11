@@ -32,8 +32,8 @@ var nameToImageTitle = {
 }
 
 function getMedallionImage(dungeon) {
-  if (dungeon in knownMedallions) {
-    med = knownMedallions[dungeon];
+  if (dungeon in state.knownMedallions) {
+    med = state.knownMedallions[dungeon];
     var medToImage = {
       'Kokiri Emerald': 'stones.png',
       'Goron Ruby': 'stones.png',
@@ -80,7 +80,7 @@ function hasBossKey(dungeon) {
 }
 
 function drawDungeon(dungeon) {
-  var counts = currentItemsAll.reduce(function (acc, curr) {
+  var counts = state.currentItemsAll.reduce(function (acc, curr) {
     if (typeof acc[curr] == 'undefined') {
       acc[curr] = 1;
     } 
@@ -95,7 +95,7 @@ function drawDungeon(dungeon) {
   $('#'+idname+' .dungeontitle').css("background-image", "url('images/"+nameToImageTitle[dungeon]+"')"); 
   medimage = getMedallionImage(dungeon);
   if (medimage != '') {
-    imageEnable = $.inArray(knownMedallions[dungeon], currentItemsAll) != -1;
+    imageEnable = $.inArray(state.knownMedallions[dungeon], state.currentItemsAll) != -1;
     $('<div class="medallionimage'+ (!imageEnable ? ' disable' : '') +'"></div>').appendTo('#'+idname);
     $('#'+idname+' .medallionimage').css("background-image", "url('images/"+medimage+"')"); 
   }

@@ -1,6 +1,6 @@
 function has(item, count) {
   count = count ? count : 1;
-  return item in currentItemsAll && currentItemsAll[item] >= count;
+  return item in state.currentItemsAll && state.currentItemsAll[item] >= count;
 }
 
 function has_ocarina() {
@@ -16,11 +16,11 @@ function has_fire_source() {
 }
 
 function is_child() {
-  return currentAge == 'Child';
+  return state.currentAge == 'Child';
 }
 
 function is_adult() {
-  return currentAge == 'Adult';
+  return state.currentAge == 'Adult';
 }
 
 function nighttime() {
