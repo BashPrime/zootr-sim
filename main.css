@@ -77,15 +77,23 @@ a.location {
   
 }
 
-a#reset {
+a.button {
   font-weight: bold;
   text-decoration: none;
-  color:white;
   padding:6px 10px;
-  background-color:#ee0000;
   margin:10px;
   border-radius:6px;
   border: 2px solid black;
+}
+
+a#reset {
+  background-color:#ee0000;
+  color:white;
+}
+
+a#undo {
+  background-color: #0061ff;
+  color:white;
 }
 
 .current a {
