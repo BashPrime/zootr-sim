@@ -55,9 +55,59 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 body {
   font-family: 'scatter OpenSans', sans-serif;
   background-color: #efefef;
+  padding:0;
+  margin:0;
+}
+
+div.headerbar {
+  margin:0;
+  padding:0;
+  border:0;
+  position:absolute;
+  width:100%;
+  height:64px;
+  background-image: linear-gradient(#333, black);
+  background-repeat: no-repeat;
+}
+
+.title {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  padding:0;
+  color:white;
+  font-size: 1.5em;
+  border:0;
+  display: inline-block;
+}
+
+.title img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.title span {
+  text-shadow: 0px 0px 10px #cccccc;
+}
+
+.credit {
+  position: absolute;
+  top:38;
+  right:8;
+  color:white;
 }
 
 div {
@@ -69,6 +119,47 @@ div {
   margin: 10px;
 }
 
+div.mainbody {
+  margin-top:64px;
+  margin-left:0px;
+  margin-right:0px;
+  width:100%;
+  min-height: 80%;
+  padding:10px 0px;
+  border:0;
+  text-align: center;
+}
+
+div.start {
+  border: 0;
+  width:80%;
+  height:50%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+  text-align: center;
+  
+}
+
+div.currentinner {
+  text-align: left;
+  padding:0;
+  margin:0;
+  border:0;
+}
+
+.header {
+  vertical-align: middle;
+  font-size:3em;
+}
+
+.subheader {
+  vertical-align: middle;
+}
+
 a {
   cursor: pointer;
 }
@@ -76,6 +167,8 @@ a {
 a.location {
   
 }
+
+
 
 a#reset {
   font-weight: bold;
@@ -111,9 +204,14 @@ a.entrance::before {
 }
 
 .lastchecked {
-  width: 710px;
-  height:30px;
-  font-size:20px;
+  width: 90%;
+  margin:10px;
+  min-height:34px;
+  font-size:24px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid black;
 }
 
 .checked {
@@ -130,6 +228,7 @@ a.entrance::before {
   border:0;
   margin:0;
   padding:0;
+  text-align: left;
 }
 
 .item {
@@ -213,5 +312,9 @@ a.entrance::before {
 
 .disable {
     background-blend-mode:overlay;
+}
+
+.route {
+  text-align: left;
 }
 

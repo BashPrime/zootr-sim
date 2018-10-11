@@ -299,28 +299,56 @@ var entrancesByRegionAdult = {
 
 $(function() {  
   
+  var drawHeader = function() {
+    $('<div class="headerbar noselect"></div>').appendTo('body');
+    $('<div class="title"><img src="images/ocarina.png" width="50px" height="50px" draggable="false"/></div>').appendTo('.headerbar');
+    $('<span>ZooTR Sim</span>').appendTo('.title');
+    $('<span class="credit">made by scatter</span>').appendTo('.headerbar');
+  }
+  
+  var setupPageForPlaying = function() {
+    $('div').remove();
+    $('a').remove();
+    $('br').remove();
+    drawHeader();
+    $('<div class="mainbody"><div class="lastchecked"></div><br/>\
+    <div class="main tracker"></div>\
+    <div class="main current"><div class="currentinner"></div></div>\
+    <div class="main route"></div><br/>\
+    <br/><a id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
+  };
+  
+  var teardownPageForEnd = function() {
+    $('div').remove();
+    $('a').remove();
+    $('br').remove();
+    drawHeader();
+    $('<div class="mainbody"><div class="start"><span class="header">Upload a spoiler log.</span><br/>\
+    <span class="subheader">Only guaranteed to work with tournament logs.</span><br/><br/>\
+    <input type=file id=files /><br/></div></div>').appendTo('body');
+    $('#files').on('change', onFilesChanged);
+  };
+  
+  
+  teardownPageForEnd();
+  
   localforage.getItem('state', function (err, val) {
     if (val && val.playing) {
       state = val;
+      setupPageForPlaying();
       localforage.getItem('route', (err, val) => $('.route').html(val));
       updateAccessible();
       updateCollected();
       updateMedallions();
-      $('#files').hide();
-      $('#reset').show();
     }
   });
   
-  $('#reset').hide();
-  
-  var fileInput = $('#files');
-  
-  fileInput.on('change', function() {
+  function onFilesChanged() {
     if (!window.FileReader) {
         alert('Your browser is not supported')
     }
-    var input = fileInput.get(0);
-    
+    var input = $('#files').get(0);
+    console.log('a');
     // Create a reader object
     var reader = new FileReader();
     if (input.files.length) {
@@ -330,9 +358,10 @@ $(function() {
     } else {
         alert('Please upload a file before continuing')
     } 
-  });
+  };
 
   function processFile(e) {
+      console.log('b');
       var file = e.target.result,
           results;
       if (file && file.length) {
@@ -357,14 +386,13 @@ $(function() {
           state.medallions['Water Temple'] = state.testSpoiler['Morpha'];
           state.medallions['Shadow Temple'] = state.testSpoiler['Bongo Bongo'];
           state.medallions['Spirit Temple'] = state.testSpoiler['Twinrova'];
-          $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
           state.playing = true;
+          setupPageForPlaying();
           updateAccessible();
           updateCollected();
           updateMedallions();
           updateForage();
-          $('#files').hide();
-          $('#reset').show();
+          $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
         }
         catch(err) {
           console.log(err);
@@ -373,12 +401,13 @@ $(function() {
       }
   }
   
+
   var updateAccessible = function() {
-    $('.current p').remove();
-    $('.current a').remove();
-    $('.current br').remove();
-    $('.current span').remove();
-    $('<p>Current Region: ' + state.currentRegion + ' [' + state.currentAge + ']</p>').appendTo('.current');
+    $('.currentinner p').remove();
+    $('.currentinner a').remove();
+    $('.currentinner br').remove();
+    $('.currentinner span').remove();
+    $('<p>Current Region: ' + state.currentRegion + ' [' + state.currentAge + ']</p>').appendTo('.currentinner');
     locations = state.currentAge == 'Child' ? locationsByRegionChild : locationsByRegionAdult;
     entrances = state.currentAge == 'Child' ? entrancesByRegionChild : entrancesByRegionAdult;
     for (var i = 0; i < locations[state.currentRegion].length; i++) {
@@ -386,32 +415,32 @@ $(function() {
       if ($.inArray(key, state.checkedLocations) == -1) {
         //if (!(key in logicDict) || logicDict[key]()) {
         if (true) {
-          $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.current');
+          $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.currentinner');
         }
       }
       else {
-        $('<span class="location checked" id="' + key + '">' + key + '</span><br/>').appendTo('.current');
+        $('<span class="location checked" id="' + key + '">' + key + '</span><br/>').appendTo('.currentinner');
       }
     }
     if (locations[state.currentRegion].length > 0) {
-      $('<br/>').appendTo('.current');
+      $('<br/>').appendTo('.currentinner');
     }
     for (var i = 0; i < entrances[state.currentRegion].length; i++) {
       key = entrances[state.currentRegion][i];
     //  if (!(key in logicDict) || logicDict[key]()) {
       if (true) {
-        $('<a class="entrance" id="' + key + '">To ' + key + '</a><br/>').appendTo('.current');
+        $('<a class="entrance" id="' + key + '">To ' + key + '</a><br/>').appendTo('.currentinner');
       }
     }
     collectedWarps = state.currentItemsAll.filter(value => -1 !== warpSongs.indexOf(value));
     for (var i = 0; i < collectedWarps.length; i++)
     {
       if (i == 0) {
-        $('<p>WARPS</p>').appendTo('.current');
+        $('<p>WARPS</p>').appendTo('.currentinner');
       }
-      $('<a class="entrance" id="' + collectedWarps[i] + '">Play ' + collectedWarps[i] + '</a><br/>').appendTo('.current');
+      $('<a class="entrance" id="' + collectedWarps[i] + '">Play ' + collectedWarps[i] + '</a><br/>').appendTo('.currentinner');
     }
-    $('<br/><a class="entrance" id="Savewarp ' + state.currentAge  + '">Savewarp to ' + (state.currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.current');
+    $('<br/><a class="entrance" id="Savewarp ' + state.currentAge  + '">Savewarp to ' + (state.currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.currentinner');
   };
   
   var updateCollected = function() {
@@ -469,7 +498,7 @@ $(function() {
             }
           }
           else {
-            knownMedallions[key] = medallions[key];
+            state.knownMedallions[key] = state.medallions[key];
           }
         }
       }
@@ -571,22 +600,6 @@ $(function() {
   $(document).on('click', '#reset', function(event) {
     state = getInitialState();
     updateForage();
-    $('.current a').remove();
-    $('.current span').remove();
-    $('.current p').remove();
-    $('.current br').remove();
-    $('.tracker p').remove();
-    $('.tracker br').remove();
-    $('.tracker a').remove();
-    $('.tracker span').remove();
-    $('.tracker div').remove();
-    $('.medallions div').remove();
-    $('.medallions p').remove();
-    $('.medallions br').remove();
-    $('.route span').remove();
-    $('.route br').remove();
-    $('.lastchecked span').remove();
-    $('#reset').hide();
-    $('#files').show();
+    teardownPageForEnd();
   });
 });
