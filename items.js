@@ -52,10 +52,10 @@ function getImage(item, count) {
   if (item == 'Bottle') {
     var bottles = 0;
     var hasLetter = false;
-    for (key in currentItemsAll) {
-      if (key.startsWith('Bottle')) {
+    for (var i = 0; i < currentItemsAll.length; i++) {
+      if (currentItemsAll[i].startsWith('Bottle')) {
         bottles++;
-        if (key == 'Bottle with Letter') {
+        if (currentItemsAll[i] == 'Bottle with Letter') {
           hasLetter = true;
         }
       }
@@ -64,64 +64,64 @@ function getImage(item, count) {
   }
   else if (item == 'Child Trade') {
     retval = [];
-    if (!('Weird Egg' in currentItemsAll)) {
+    if ($.inArray('Weird Egg', currentItemsAll) == -1) {
       return ['egg.png', false];
     }
-    if ('Weird Egg' in currentItemsAll) {
+    if ($.inArray('Weird Egg', currentItemsAll) != -1) {
       retval = ['egg.png', true];
     }
-    if ('Chicken' in currentItemsAll) {
+    if ($.inArray('Chicken', currentItemsAll) != -1) {
       retval = ['cucco.png', true];
     }
-    if ('Zeldas Letter' in currentItemsAll) {
+    if ($.inArray('Zeldas Letter', currentItemsAll) != -1) {
       retval = ['letter.png', true];
     }
-    if ('Keaton Mask' in currentItemsAll) {
+    if ($.inArray('Keaton Mask', currentItemsAll) != -1) {
       retval = ['keaton.png', true];
     }
-    if ('Skull Mask' in currentItemsAll) {
+    if ($.inArray('Skull Mask', currentItemsAll) != -1) {
       retval = ['skull.png', true];
     }
-    if ('Spooky Mask' in currentItemsAll) {
+    if ($.inArray('Spooky Mask', currentItemsAll) != -1) {
       retval = ['spooky.png', true];
     }
-    if ('Bunny Hood' in currentItemsAll) {
+    if ($.inArray('Bunny Hood', currentItemsAll) != -1) {
       retval = ['bunny.png', true];
     }
-    if ('Mask of Truth' in currentItemsAll) {
+    if ($.inArray('Mask of Truth', currentItemsAll) != -1) {
       retval = ['truth.png', true];
     }
     return retval;
   }
   else if (item == 'Adult Trade') {
-    if ('Claim Check' in currentItemsAll) {
+    if ($.inArray('Claim Check', currentItemsAll) != -1) {
       return ['claim.png', true];
     }
-    if ('Eyedrops' in currentItemsAll) {
+    if ($.inArray('Eyedrops', currentItemsAll) != -1) {
       return ['eyedrops.png', true];
     }
-    if ('Eyeball Frog' in currentItemsAll) {
+    if ($.inArray('Eyeball Frog', currentItemsAll) != -1) {
       return ['frog.png', true];
     }
-    if ('Prescription' in currentItemsAll) {
+    if ($.inArray('Prescription', currentItemsAll) != -1) {
       return ['prescription.png', true];
     }
-    if ('Broken Sword' in currentItemsAll) {
+    if ($.inArray('Broken Sword', currentItemsAll) != -1) {
       return ['broken_sword.png', true];
     }
-    if ('Poachers Saw' in currentItemsAll) {
+    if ($.inArray('Poachers Saw', currentItemsAll) != -1) {
       return ['saw.png', true];
     }
-    if ('Odd Mushroom' in currentItemsAll) {
+    if ($.inArray('Odd Mushroom', currentItemsAll) != -1) {
       return ['mushroom.png', true];
     }
-    if ('Cojiro' in currentItemsAll) {
+    if ($.inArray('Cojiro', currentItemsAll) != -1) {
       return ['cojiro.png', true];
     }
-    if ('Pocket Cucco' in currentItemsAll) {
+    if ($.inArray('Pocket Cucco', currentItemsAll) != -1) {
       return ['cucco.png', true];
     }
-    if ('Pocket Egg' in currentItemsAll) {
+    if ($.inArray('Pocket Egg', currentItemsAll) != -1) {
       return ['egg.png', true];
     }
     else {
@@ -137,11 +137,20 @@ function getImage(item, count) {
 }
 
 function drawItems() {
+  var counts = currentItemsAll.reduce(function (acc, curr) {
+    if (typeof acc[curr] == 'undefined') {
+      acc[curr] = 1;
+    } 
+    else {
+      acc[curr] += 1;
+    }
+    return acc;
+  }, {});
   for (var i = 0; i < itemgrid.length; i++) {
     for (var j = 0; j < itemgrid[i].length; j++) {
       item = itemgrid[i][j];
       idname = item.replace(/\s/g, '');
-      count = (item in currentItemsAll) ? currentItemsAll[item] : 0;
+      count = (item in counts) ? counts[item] : 0;
       image = getImage(item, count);
       imagename = image[0];
       imageEnable = image[1];

@@ -1,88 +1,71 @@
-var overworldLogicChild = {
-  'Top of Crater Grotto Chest': () => { return can_blast_or_smash() },
-  'Song from Composer Grave': () => { return can_play('Zeldas Lullaby') },
-  'Redead Grotto Chest': () => { return can_blast_or_smash() },
-  'Lost Woods Generic Grotto Chest': () => { return can_blast_or_smash() },
-  'Deku Salesman Lost Woods Grotto': () => { return can_blast_or_smash() },
-  'Wolfos Grotto Chest': () => { return can_blast_or_smash() }, 
-  'Deku Salesman Hyrule Field Grotto': () => { return can_blast_or_smash() },
-  'Field West Castle Town Grotto Chest': () => { return can_blast_or_smash() },
-  'Remote Southern Grotto Chest': () => { return can_blast_or_smash() },
-};
+function has(item) {
+  ret = $.inArray(item, currentItems);
+  return $.inArray(item, currentItems) != -1;
+}
 
-var dekuTreeLogic = {};
+function has_ocarina() {
+  return has('Ocarina') || has('Fairy Ocarina') || has('Ocarina of Time');
+}
 
-var dodongosCavernLogicChild = {
-  '': () => {  },
-  '': () => {  },
-  '': () => {  },
-  '': () => {  },
-  '': () => {  },
-  '': () => {  },
-  '': () => {  },
-  'Dodongos Cavern End of Bridge Chest': () => { return has_explosives() || (is_adult() && has('Hammer')) },
-  'King Dodongo': () => { return has('Bomb Bag') || has('Progressive Strength Upgrade') },
-  'King Dodongo Heart': () => { return has('Bomb Bag') || has('Progressive Strength Upgrade') },
-};
+function can_play(song) {
+  return has(song) && has_ocarina();
+}
 
-var jabuJabuLogic = {};
+function has_fire_source() {
+  return ((has('Dins Fire') || (has('Bow') && has('Fire Arrows') && is_adult())) && has('Magic Meter'))
+}
 
-var spiritTempleLogicChild = {
-  'Spirit Temple Child Left Chest': () => { return has('Boomerang') || has('Slingshot') || has_bombchus() },
-  'Spirit Temple Child Right Chest': () => { return has('Boomerang') || has('Slingshot') || has_bombchus() },
-  'Spirit Temple Compass Chest': () => { return has('Progressive Hookshot') && can_play('Zeldas Lullaby') },
-  'Spirit Temple Early Adult Right Chest': () => { return has('Bow') || has('Progressive Hookshot') || has_bombchus() }, 
-  'Spirit Temple First Mirror Right Chest': () => { return has('Small Key (Spirit Temple)', 3) },
-  'Spirit Temple First Mirror Left Chest': () => { return has('Small Key (Spirit Temple)', 3) },
-  'Spirit Temple Map Chest': () => { return (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit')) || (has('Magic Meter') && (has('Dins Fire') || (has('Fire Arrows') && has('Bow') && has('Progressive Strength Upgrade', 2) && has('Small Key (Spirit Temple)', 3) && is_adult()))) },
-  'Spirit Temple Child Climb East Chest': () => { return has_explosives() || ((has('Boomerang') || has('Slingshot')) && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit') && (has('Boomerang') || has('Slingshot'))) },
-  'Spirit Temple Child Climb North Chest': () => { return has_explosives() || ((has('Boomerang') || has('Slingshot')) && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit') && (has('Boomerang') || has('Slingshot'))) },
-  'Spirit Temple Sun Block Room Chest': () => { return (has('Small Key (Spirit Temple)', 5) && has_explosives() && can_play('Requiem of Spirit')) || (has_fire_source() && (has_explosives() || has('Small Key (Spirit Temple)', 2))) },
-  'Spirit Temple Statue Hand Chest': () => { return has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && can_play('Zeldas Lullaby') },
-  'Spirit Temple NE Main Room Chest': () => { return has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && can_play('Zeldas Lullaby') && has('Progressive Hookshot') },
-  'Mirror Shield Chest': () => { return has('Small Key (Spirit Temple)', 4) && has('Progressive Strength Upgrade', 2) && is_adult() && has_explosives() },
-  'Silver Gauntlets Chest': () => { return (has('Small Key (Spirit Temple)', 3) && has('Progressive Hookshot', 2) && has_explosives()) || has('Small Key (Spirit Temple)', 5) },
-  'Spirit Temple Near Four Armos Chest': () => { return has('Mirror Shield') && has_explosives() },
-  'Spirit Temple Hallway Left Invisible Chest': () => { return can_see_with_lens() && has_explosives() },
-  'Spirit Temple Hallway Right Invisible Chest': () => { return can_see_with_lens() && has_explosives() },
-  'Spirit Temple Boss Key Chest': () => { return can_play('Zeldas Lullaby') && has('Bow') && has('Progressive Hookshot') && can_blast_or_smash() },
-  'Spirit Temple Topmost Chest': () => { return has('Mirror Shield') },
-  'Twinrova': () => { return has('Mirror Shield') && has_explosives() && has('Progressive Hookshot') && has('Boss Key (Spirit Temple)') },
-  'Twinrova Heart': () => { return has('Mirror Shield') && has_explosives() && has('Progressive Hookshot') && has('Boss Key (Spirit Temple)') },
-};
+function is_adult() {
+  return true;
+}
 
-var bottomOfTheWellLogic = {};
+function nighttime() {
+  return true;
+}
 
-var childLogic = Object.assign({}, overworldLogicChild, dekuTreeLogic, dodongosCavernLogicChild, spiritTempleLogicChild, bottomOfTheWellLogic);
+function can_see_with_lens() {
+  return true;
+}
 
-var overworldLogicAdult = {};
+function has_explosives() {
+  return has('Bomb Bag');
+}
 
-var forestTempleLogic = {};
+function guarantee_hint() {
+  return true;
+}
 
-var fireTempleLogic = {};
+function has_bombchus() {
+  return false;
+}
 
-var waterTempleLogic = {};
+function can_blast_or_smash() {
+  return has('Bomb Bag') || (is_adult() && has('Hammer')) || has_bombchus();
+}
 
-var shadowTempleLogic = {};
+function has_bottle() {
+  return true;
+}
 
-var spiritTempleLogicAdult = {};
+function can_reach(loc) {
+  return true;
+}
 
-var iceCavernLogic = {};
+function can_dive() {
+  return has('Progressive Scale');
+}
 
-var gerudoTrainingGroundsLogic = {};
+function can_finish_adult_trades() {
+  zora_thawed = has_bottle() && has('Zeldas Lullaby') && (can_reach('Ice Cavern') || can_reach('Ganons Castle Water Trial') || has('Progressive Wallet', 2));
+  carpenter_access = has('Epona') || has('Progressive Hookshot', 2);
+  return (has('Claim Check') || ((has('Eyedrops') || has('Eyeball Frog') || has('Prescription') || has('Broken Sword')) && zora_thawed) || ((has('Poachers Saw') || has('Odd Mushroom') || has('Cojiro') || has('Pocket Cucco') || has('Pocket Egg')) && zora_thawed && carpenter_access));
+}
 
-var ganonsCastleLogic = {};
-
-var adultLogic = Object.assign({}, overworldLogicAdult, dodongosCavernLogicAdult, forestTempleLogic, fireTempleLogic, waterTempleLogic, shadowTempleLogic, spiritTempleLogicAdult, iceCavernLogic, gerudoTrainingGroundsLogic, ganonsCastleLogic);
-
-var locationLogicDict = {
-    
-    'Impa at Castle': () => { return has('Weird Egg') },
-    'Kokiri Forest Storms Grotto Chest': () => { return can_play('Song of Storms') },
+var logicDict = {
     'Skull Kid': () => { return can_play('Sarias Song') },
     'Ocarina Memory Game': () => { return has_ocarina() },
     'Target in Woods': () => { return has('Slingshot') },
-    'Deku Theater Skull Mask': () => { return has('Skull Mask') },
+    'Deku Theater Skull Mask': () => { return has('Zeldas Letter') },
     'Deku Theater Mask of Truth': () => { return (has('Zeldas Letter') && can_play('Sarias Song') && has('Kokiri Emerald') && has('Goron Ruby') && has('Zora Sapphire') && guarantee_hint()) }, 
     'Anju as Adult': () => { return is_adult() },
     '10 Gold Skulltulla Reward': () => { return has('Gold Skulltulla Token', 10) },
@@ -91,8 +74,12 @@ var locationLogicDict = {
     '40 Gold Skulltulla Reward': () => { return has('Gold Skulltulla Token', 40) },
     '50 Gold Skulltulla Reward': () => { return has('Gold Skulltulla Token', 50) },
     'Heart Piece Grave Chest': () => { return can_play('Suns Song') },
-    'Composer Grave Chest': () => { return can_play('Zeldas Lullaby') && has_fire_source() },  
+    'Composer Grave Chest': () => { return has_fire_source() },  
+    'Bottom of the Well Front Left Hidden Wall': () => { return can_see_with_lens() },
     'Bottom of the Well Front Center Bombable': () => { return has_explosives() },
+    'Bottom of the Well Right Bottom Hidden Wall': () => { return can_see_with_lens() },
+    'Bottom of the Well Center Large Chest': () => { return can_see_with_lens() },
+    'Bottom of the Well Center Small Chest': () => { return can_see_with_lens() },
     'Bottom of the Well Back Left Bombable': () => { return has_explosives() },
     'Bottom of the Well Defeat Boss': () => { return can_play('Zeldas Lullaby') },
     'Bottom of the Well Invisible Chest': () => { return can_play('Zeldas Lullaby') && can_see_with_lens() },
@@ -102,31 +89,33 @@ var locationLogicDict = {
     'Bottom of the Well Locked Pits': () => { return has('Small Key (Bottom of the Well)', 3) && can_see_with_lens() }, 
     'Bottom of the Well Behind Right Grate': () => { return has('Small Key (Bottom of the Well)', 3) && can_see_with_lens() },  
     'Death Mountain Bombable Chest': () => { return can_blast_or_smash() },
-    'Eyedrops to Biggoron': () => { return has('Eyedrops') },
-    'Biggoron': () => { return has('Claim Check') },
+    'Biggoron': () => { return (can_blast_or_smash() && is_adult() && can_finish_adult_trades() && guarantee_hint()) },
     'Goron City Leftmost Maze Chest': () => { return is_adult() && (has('Progressive Strength Upgrade', 2) || has('Hammer')) },
     'Goron City Left Maze Chest': () => { return can_blast_or_smash() || (has('Progressive Strength Upgrade', 2) && is_adult()) },
     'Goron City Right Maze Chest': () => { return can_blast_or_smash() || (has('Progressive Strength Upgrade', 2) && is_adult()) },
     'Rolling Goron as Child': () => { return has('Bomb Bag') },
     'Goron City Pot Freestanding PoH': () => { return (has('Bomb Bag') || has('Progressive Strength Upgrade')) && (can_play('Zeldas Lullaby') || (has('Dins Fire') && has('Magic Meter'))) },
     'Darunias Joy': () => { return can_play('Sarias Song') },
-    
+    'Dodongos Cavern End of Bridge Chest': () => { return has_explosives() || (is_adult() && has('Hammer')) },
+    'King Dodongo': () => { return has('Bomb Bag') || has('Progressive Strength Upgrade') },
+    'King Dodongo Heart': () => { return has('Bomb Bag') || has('Progressive Strength Upgrade') },
     'Song from Saria': () => { return has('Zeldas Letter') },
     'Crater Fairy Reward': () => { return can_play('Zeldas Lullaby') },
     'Mountain Summit Fairy Reward': () => { return can_play('Zeldas Lullaby') },
-    'Hyrule Castle Fairy Reward': () => { return can_play('Zeldas Lullaby') && has_explosives() },
-    'Ganons Castle Fairy Reward': () => { return can_play('Zeldas Lullaby') && has('Progressive Strength Upgrade', 3) },
+    'Hyrule Castle Fairy Reward': () => { return can_play('Zeldas Lullaby') },
+    'Ganons Castle Fairy Reward': () => { return can_play('Zeldas Lullaby') },
     'Bombchu Bowling Bomb Bag': () => { return has_bombchus() },
     'Bombchu Bowling Piece of Heart': () => { return has_bombchus() },
     'Adult Shooting Gallery': () => { return has('Bow') && is_adult() },
     '10 Big Poes': () => { return (has('Bow') && has('Epona') && has_bottle() && is_adult() && guarantee_hint()) },
+    'Treasure Chest Game': () => { return has('Lens of Truth') && has('Magic Meter') },
     'Zora River Lower Freestanding PoH': () => { return has_explosives() || has('Progressive Scale') || (has('Hover Boots') && is_adult()) },
     'Zora River Upper Freestanding PoH': () => { return has_explosives() || has('Progressive Scale') || (has('Hover Boots') && is_adult()) },
     'Frog Ocarina Game': () => { return can_play('Zeldas Lullaby') && can_play('Sarias Song') && can_play('Suns Song') && can_play('Eponas Song') && can_play('Song of Time') && can_play('Song of Storms') },
     'Frogs in the Rain': () => { return can_play('Song of Storms') },
     'Underwater Bottle': () => { return can_dive() },
     'King Zora Moves': () => { return has('Bottle with Letter') },
-    'Zoras Fountain Fairy Reward': () => { return can_play('Zeldas Lullaby') && has_explosives() },
+    'Zoras Fountain Fairy Reward': () => { return can_play('Zeldas Lullaby') },
     'Ice Cavern Map Chest': () => { return has_bottle() },
     'Ice Cavern Compass Chest': () => { return has_bottle() },
     'Ice Cavern Freestanding PoH': () => { return has_bottle() },
@@ -144,7 +133,7 @@ var locationLogicDict = {
     'Phantom Ganon Heart': () => { return has('Boss Key (Forest Temple)') },
     'Graveyard Freestanding PoH': () => { return is_adult() && (has('Magic Bean') || has('Progressive Hookshot', 2)) },
     'Song at Windmill': () => { return is_adult() && has_ocarina() },
-    'Windmill Freestanding PoH': () => { return is_adult() || has('Boomerang') },
+    'Windmill Freestanding PoH': () => { return (is_adult()) || has('Boomerang') },
     'Sheik at Temple': () => { return has('Forest Medallion') && is_adult() },
     'Diving in the Lab': () => { return has('Progressive Scale', 2) },
     'Child Fishing': () => { return has('Kokiri Sword') },
@@ -187,7 +176,7 @@ var locationLogicDict = {
     'Bongo Bongo Heart': () => { return has('Small Key (Shadow Temple)', 5) && (has('Bow') || has('Progressive Hookshot', 2)) && has('Boss Key (Shadow Temple)') },
     'Gerudo Valley Hammer Rocks Chest': () => { return has('Hammer') && is_adult() },
     'Colossus Freestanding PoH': () => { return can_play('Requiem of Spirit') && has('Magic Bean') && is_adult() },
-    'Desert Colossus Fairy Reward': () => { return can_play('Zeldas Lullaby') && has_explosives() },
+    'Desert Colossus Fairy Reward': () => { return can_play('Zeldas Lullaby') },
     'Gerudo Fortress Rooftop Chest': () => { return (has('Hover Boots') || (has('Progressive Hookshot') && has_ocarina()) || (has('Progressive Hookshot', 2))) && is_adult() },
     'Horseback Archery 1000 Points': () => { return has('Gerudo Membership Card') && has('Epona') && has('Bow') && is_adult() },
     'Horseback Archery 1500 Points': () => { return (has('Gerudo Membership Card') && has('Epona') && has('Bow') && is_adult()) },
@@ -208,8 +197,27 @@ var locationLogicDict = {
     'Gerudo Training Grounds Heavy Block Second Chest': () => { return has('Progressive Strength Upgrade', 2) && can_see_with_lens() && is_adult() },
     'Gerudo Training Grounds Heavy Block Third Chest': () => { return has('Progressive Strength Upgrade', 2) && can_see_with_lens() && is_adult() },
     'Gerudo Training Grounds Heavy Block Fourth Chest': () => { return has('Progressive Strength Upgrade', 2) && can_see_with_lens() && is_adult() },
-    
-
+    'Spirit Temple Child Left Chest': () => { return has('Boomerang') || has('Slingshot') },
+    'Spirit Temple Child Right Chest': () => { return has('Boomerang') || has('Slingshot') },
+    'Spirit Temple Compass Chest': () => { return has('Progressive Hookshot') && can_play('Zeldas Lullaby') },
+    'Spirit Temple Early Adult Right Chest': () => { return has('Bow') || has('Progressive Hookshot') || has_bombchus() }, 
+    'Spirit Temple First Mirror Right Chest': () => { return has('Small Key (Spirit Temple)', 3) },
+    'Spirit Temple First Mirror Left Chest': () => { return has('Small Key (Spirit Temple)', 3) },
+    'Spirit Temple Map Chest': () => { return (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit')) || (has('Magic Meter') && (has('Dins Fire') || (has('Fire Arrows') && has('Bow') && has('Progressive Strength Upgrade', 2) && has('Small Key (Spirit Temple)', 3) && is_adult()))) },
+    'Spirit Temple Child Climb East Chest': () => { return has_explosives() || ((has('Boomerang') || has('Slingshot')) && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit') && (has('Boomerang') || has('Slingshot'))) },
+    'Spirit Temple Child Climb North Chest': () => { return has_explosives() || ((has('Boomerang') || has('Slingshot')) && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && (has('Progressive Hookshot') || has('Bow'))) || (has('Small Key (Spirit Temple)', 5) && can_play('Requiem of Spirit') && (has('Boomerang') || has('Slingshot'))) },
+    'Spirit Temple Sun Block Room Chest': () => { return (has('Small Key (Spirit Temple)', 5) && has_explosives() && can_play('Requiem of Spirit')) || (has_fire_source() && (has_explosives() || has('Small Key (Spirit Temple)', 2))) },
+    'Spirit Temple Statue Hand Chest': () => { return has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && can_play('Zeldas Lullaby') },
+    'Spirit Temple NE Main Room Chest': () => { return has('Small Key (Spirit Temple)', 3) && has('Progressive Strength Upgrade', 2) && is_adult() && can_play('Zeldas Lullaby') && has('Progressive Hookshot') },
+    'Mirror Shield Chest': () => { return has('Small Key (Spirit Temple)', 4) && has('Progressive Strength Upgrade', 2) && is_adult() && has_explosives() },
+    'Silver Gauntlets Chest': () => { return (has('Small Key (Spirit Temple)', 3) && has('Progressive Hookshot', 2) && has_explosives()) || has('Small Key (Spirit Temple)', 5) },
+    'Spirit Temple Near Four Armos Chest': () => { return has('Mirror Shield') && has_explosives() },
+    'Spirit Temple Hallway Left Invisible Chest': () => { return can_see_with_lens() && has_explosives() },
+    'Spirit Temple Hallway Right Invisible Chest': () => { return can_see_with_lens() && has_explosives() },
+    'Spirit Temple Boss Key Chest': () => { return can_play('Zeldas Lullaby') && has('Bow') && has('Progressive Hookshot') && can_blast_or_smash() },
+    'Spirit Temple Topmost Chest': () => { return has('Mirror Shield') },
+    'Twinrova': () => { return has('Mirror Shield') && has_explosives() && has('Progressive Hookshot') && has('Boss Key (Spirit Temple)') },
+    'Twinrova Heart': () => { return has('Mirror Shield') && has_explosives() && has('Progressive Hookshot') && has('Boss Key (Spirit Temple)') },
     'Zelda': () => { return has('Shadow Medallion') && has('Spirit Medallion') },
     'Ganons Castle Forest Trial Clear': () => { return has('Magic Meter') && has('Bow') && has('Light Arrows') && (has('Fire Arrows') || (has('Progressive Hookshot') && has('Dins Fire'))) },
     'Ganons Castle Fire Trial Clear': () => { return has('Progressive Strength Upgrade', 3) && has('Magic Meter') && has('Bow') && has('Light Arrows') && has('Progressive Hookshot', 2) },
@@ -224,7 +232,7 @@ var locationLogicDict = {
     'Ganons Castle Light Trail Invisible Enemies Chest': () => { return can_see_with_lens() },
     'Ganons Castle Light Trial Lullaby Chest': () => { return can_play('Zeldas Lullaby') && has('Small Key (Ganons Castle)', 1) },
     'Ganon': () => { return (has('Magic Meter') && has('Bow') && has('Light Arrows'))  },
-    'Tektite Grotto Freestanding PoH': () => { return can_blast_or_smash() && (has('Progressive Scale', 2) || (has('Iron Boots') && is_adult())) },
+    'Tektite Grotto Freestanding PoH': () => { return has('Progressive Scale', 2) || (has('Iron Boots') && is_adult()) },
     'GS Kokiri Know It All House': () => { return nighttime() && can_reach('Hyrule Field') },
     'GS Kokiri Bean Patch': () => { return has_bottle() },
     'GS Kokiri House of Twins': () => { return has('Progressive Hookshot') && is_adult() && nighttime() },
@@ -307,20 +315,4 @@ var locationLogicDict = {
     'GS Spirit Temple Hall to West Iron Knuckle': () => { return (has('Boomerang') && has('Progressive Hookshot')) || (has('Boomerang') && has('Small Key (Spirit Temple)', 5) && has_explosives() && can_play('Requiem of Spirit')) || (has('Progressive Hookshot') && has('Progressive Strength Upgrade', 2) && is_adult() && has('Small Key (Spirit Temple)', 3)) },
     'GS Spirit Temple Boulder Room': () => { return can_play('Song of Time') && (has('Bow') || has('Progressive Hookshot') || has_explosives()) },
     'GS Spirit Temple Lobby': () => { return has('Progressive Strength Upgrade', 2) && has('Small Key (Spirit Temple)', 3) && is_adult() && (has('Progressive Hookshot', 2) || (has('Progressive Hookshot') && has_ocarina()) || has('Hover Boots')) },
-};
-
-var utilityLogicDict = {
-  'Show Letter to Guard': () => { return has('Zeldas Letter') },
-  'Turn in Keaton Mask': () => { return has('Keaton Mask') },
-  'Buy Keaton Mask': () => { return flagSet('Show Letter to Guard') },
-  'Buy Skull Mask': () => { return flagSet('Turn in Keaton Mask') },
-  'Unlock First Door': () => { return has('Small Key (Spirit Temple)') }
-};
-
-var utilityLambdas = {
-  'Show Letter to Guard': () => { },
-  'Turn in Keaton Mask': () => { currentItemsAll['Keaton Mask'] = 0 },
-  'Buy Keaton Mask': () => { currentItemsAll['Keaton Mask'] = 1 },
-  'Buy Skull Mask': () => { currentItemsAll['Skull Mask'] = 1 },
-  'Unlock First Door': () => { currentItemsAll['Small Key (Spirit Temple)']-- }
 };

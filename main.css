@@ -94,6 +94,12 @@ a#reset {
   color: black;
 }
 
+a.useChu {
+  text-decoration:none;
+  font-weight: bold;
+  color:black;
+}
+
 a.entrance::before {
   content: "-> ";
 }
@@ -207,22 +213,5 @@ a.entrance::before {
 
 .disable {
     background-blend-mode:overlay;
-}
-
-.red {
-  animation: color-fade 0.7s forwards;
-}
-
-@keyframes color-fade {
-    0% {
-        color:red;
-    }
-    15% {
-      color:red;
-    }
-    100%{
-        color: black;
-        
-    }
 }
 

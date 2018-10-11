@@ -80,23 +80,32 @@ function hasBossKey(dungeon) {
 }
 
 function drawDungeon(dungeon) {
+  var counts = currentItemsAll.reduce(function (acc, curr) {
+    if (typeof acc[curr] == 'undefined') {
+      acc[curr] = 1;
+    } 
+    else {
+      acc[curr] += 1;
+    }
+    return acc;
+  }, {});
   idname = dungeon.replace(/\s/g, '');
   $('<div class="dungeon" id="'+idname+'"></div>').appendTo('.dungeons');
   $('<div class="dungeontitle"></div>').appendTo('#'+idname);
   $('#'+idname+' .dungeontitle').css("background-image", "url('images/"+nameToImageTitle[dungeon]+"')"); 
   medimage = getMedallionImage(dungeon);
   if (medimage != '') {
-    imageEnable = knownMedallions[dungeon] in currentItemsAll;
+    imageEnable = $.inArray(knownMedallions[dungeon], currentItemsAll) != -1;
     $('<div class="medallionimage'+ (!imageEnable ? ' disable' : '') +'"></div>').appendTo('#'+idname);
     $('#'+idname+' .medallionimage').css("background-image", "url('images/"+medimage+"')"); 
   }
   if (hasKeys(dungeon)) {
-    keycount = ('Small Key ('+dungeon+')' in currentItemsAll ? currentItemsAll['Small Key ('+dungeon+')'] : 0);
+    keycount = ('Small Key ('+dungeon+')' in counts ? counts['Small Key ('+dungeon+')'] : 0);
     $('<div class="smallkeyimage'+ (keycount == 0 ? ' disable' : '') +'"></div>').appendTo('#'+idname);
     $('#'+idname+' .smallkeyimage').css("background-image", "url('images/"+ (keycount == 0 ? "small_key.png" : keycount + '.png') + "')"); 
   }
   if (hasBossKey(dungeon)) {
-    bosskeycount = ('Boss Key ('+dungeon+')' in currentItemsAll ? 1 : 0);
+    bosskeycount = ('Boss Key ('+dungeon+')' in counts ? 1 : 0);
     $('<div class="bosskeyimage'+ (bosskeycount == 0 ? ' disable' : '') +'"></div>').appendTo('#'+idname);
     $('#'+idname+' .bosskeyimage').css("background-image", "url('images/boss_key.png')");}
 }
