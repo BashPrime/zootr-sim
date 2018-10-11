@@ -571,6 +571,16 @@ $(function() {
     updateForage();
   });
   
+  $(document).on('click', '#undo', function(event) {
+    lastCheckedLocation = state.checkedLocations.pop();
+    if (lastCheckedLocation in state.testSpoiler) {
+      state.currentItemsAll.splice(state.currentItemsAll.indexOf(state.testSpoiler[lastCheckedLocation]));
+    }
+    $('.route span').last().css('text-decoration', 'line-through');
+    updateAccessible();
+    updateCollected();
+  });
+  
   $(document).on('click', '#reset', function(event) {
     state = getInitialState();
     updateForage();
