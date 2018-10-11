@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101751986-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-101751986-2');
+    </script>
+    <title>ZOoTR Sim</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type='text/javascript' src='jquery-3.3.1.min.js'></script>
+    <script type='text/javascript' src='localforage-1.7.1/dist/localforage.js'></script>
+    <script type='text/javascript' src='static.js'></script>
+    <script type='text/javascript' src='items.js'></script>
+    <script type='text/javascript' src='dungeons.js'></script>
+    <script type='text/javascript' src='helper.js'></script>
+    <script type='text/javascript' src='logic.js'></script>
+    <script type='text/javascript' src='main.js'></script>
+  </head>
+<body>
+  <input type=file id=files /><br/>
+  <div class="lastchecked"></div><br/>
+  <div class="main current"></div>
+  <div class="main tracker"></div>
+  <div class="main route"></div><br/>
+  <a id="reset">This seed sucks, throw it away</a>
+</body>
+</html>
