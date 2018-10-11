@@ -160,7 +160,7 @@ var regionChangingChecks = {
   'Queen Gohma': 'Kokiri Forest',
   'King Dodongo': 'Death Mountain Trail',
   'Barinade': 'Zoras Fountain',
-  'Phantom Ganon': 'Lost Woods',
+  'Phantom Ganon': 'Kokiri Forest',
   'Volvagia': 'Death Mountain Crater',
   'Morpha': 'Lake Hylia',
   'Bongo Bongo': 'Above Graveyard',
