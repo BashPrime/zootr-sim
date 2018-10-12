@@ -151,6 +151,13 @@ div.currentinner {
   border:0;
 }
 
+div.skullsinner {
+  text-align: left;
+  padding:0;
+  margin:0;
+  border:0;
+}
+
 .header {
   vertical-align: middle;
   font-size:3em;
@@ -164,11 +171,6 @@ a {
   cursor: pointer;
 }
 
-a.location {
-  
-}
-
-
 
 a#reset {
   font-weight: bold;
@@ -181,7 +183,7 @@ a#reset {
   border: 2px solid black;
 }
 
-.current a {
+a.location, a.entrance {
   text-decoration: none;
   font-weight: bold;
   color: black;
@@ -198,7 +200,7 @@ a.entrance::before {
 }
 
 .main {
-  width: 500px;
+  width: 400px;
   height:425px;
   max-height: 425px;
 }

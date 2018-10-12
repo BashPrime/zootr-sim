@@ -17,6 +17,8 @@ function getInitialState() {
     totalChecks: 0,
     
     testSpoiler: {},
+    
+    obtainedTokens: 0,
   
     checkedLocations: [],
     
@@ -189,6 +191,7 @@ var locationsByRegionChild = {
   'Lake Hylia': ['Underwater Bottle', 'Diving in the Lab', 'Child Fishing'],
   'Gerudo Valley': ['Gerudo Valley Waterfall Freestanding PoH', 'Gerudo Valley Crate Freestanding PoH'],
   'Desert Colossus': ['Desert Colossus Fairy Reward', 'Sheik at Colossus'],
+  'Haunted Wasteland': ['Haunted Wasteland Structure Chest'],
   'Spirit Temple': ['Spirit Temple Child Left Chest', 'Spirit Temple Child Right Chest', 'Spirit Temple Map Chest', 'Spirit Temple Child Climb East Chest', 'Spirit Temple Child Climb North Chest', 'Spirit Temple Sun Block Room Chest', 'Silver Gauntlets Chest'],
   'Kakariko Village': ['Anjus Chickens', '10 Gold Skulltulla Reward', '20 Gold Skulltulla Reward', '30 Gold Skulltulla Reward', '40 Gold Skulltulla Reward', '50 Gold Skulltulla Reward', 'Impa House Freestanding PoH', 'Windmill Freestanding PoH', 'Man on Roof', 'Redead Grotto Chest', 'Kakariko Back Grotto Chest'],
   'Bottom of the Well': ['Bottom of the Well Front Left Hidden Wall', 'Bottom of the Well Front Center Bombable', 'Bottom of the Well Right Bottom Hidden Wall', 'Bottom of the Well Center Large Chest', 'Bottom of the Well Center Small Chest', 'Bottom of the Well Back Left Bombable', 'Bottom of the Well Freestanding Key', 'Bottom of the Well Defeat Boss', 'Bottom of the Well Invisible Chest', 'Bottom of the Well Underwater Front Chest', 'Bottom of the Well Underwater Left Chest', 'Bottom of the Well Basement Chest', 'Bottom of the Well Locked Pits', 'Bottom of the Well Behind Right Grate'],
@@ -204,6 +207,34 @@ var locationsByRegionChild = {
   'Jabu Jabus Belly': ['Boomerang Chest', 'Jabu Jabus Belly Map Chest', 'Jabu Jabus Belly Compass Chest', 'Barinade Heart', 'Barinade'],
 };
 
+var skulltulasByRegionChild = {
+  'Kokiri Forest': ['GS Kokiri Know It All House', 'GS Kokiri Bean Patch'],
+  'Deku Tree': ['GS Deku Tree Compass Room', 'GS Deku Tree Basement Vines', 'GS Deku Tree Basement Gate', 'GS Deku Tree Basement Back Room'],
+  'Lost Woods': ['GS Lost Woods Bean Patch Near Bridge', 'GS Lost Woods Bean Patch Near Stage'],
+  'Hyrule Field': ['GS Hyrule Field near Kakariko', 'GS Hyrule Field Near Gerudo Valley'],
+  'Market': ['GS Castle Market Guard House'],
+  'Temple of Time': [],
+  'Hyrule Castle': ['GS Hyrule Castle Tree', 'GS Hyrule Castle Grotto'],
+  'Lon Lon Ranch': ['GS Lon Lon Ranch Tree', 'GS Lon Lon Ranch Rain Shed', 'GS Lon Lon Ranch House Window', 'GS Lon Lon Ranch Back Wall'],
+  'Lake Hylia': ['GS Lake Hylia Bean Patch', 'GS Lake Hylia Lab Wall', 'GS Lake Hylia Small Island'],
+  'Gerudo Valley': ['GS Gerudo Valley Small Bridge', 'GS Gerudo Valley Bean Patch'],
+  'Desert Colossus': ['GS Desert Colossus Bean Patch'],
+  'Haunted Wasteland': ['GS Wasteland Ruins'],
+  'Spirit Temple': ['GS Spirit Temple Metal Fence', 'GS Spirit Temple Bomb for Light Room', 'GS Spirit Temple Hall to West Iron Knuckle'],
+  'Kakariko Village': ['GS Kakariko House Under Construction', 'GS Kakariko Skulltula House', 'GS Kakariko Guard\'s House', 'GS Kakariko Tree', 'GS Kakariko Watchtower'],
+  'Bottom of the Well': ['GS Well West Inner Room', 'GS Well East Inner Room', 'GS Well Like Like Cage'],
+  'Above Graveyard': [],
+  'Graveyard': ['GS Graveyard Wall', 'GS Graveyard Bean Patch'],
+  'Death Mountain Trail': ['GS Mountain Trail Bean Patch', 'GS Mountain Trail Bomb Alcove'],
+  'Death Mountain Crater': ['GS Death Mounter Crater Crate', 'GS Death Mounter Bean Patch'],
+  'Goron City': ['GS Goron City Boulder Maze'],
+  'Dodongos Cavern': ['GS Dodongo\'s Cavern East Side Room', 'GS Dodongo\'s Cavern Vines Above Stairs', 'GS Dodongo\'s Cavern Back Room', 'GS Dodongo\'s Cavern Alcove Above Stairs'],
+  'Zora River': ['GS Zora River Ladder', 'GS Zora River Tree'],
+  'Zoras Domain': [],
+  'Zoras Fountain': ['GS Zora\'s Fountain Tree', 'GS Zora\'s Fountain Above the Log'],
+  'Jabu Jabus Belly': ['GS Jabu Jabu Water Switch Room', 'GS Jabu Jabu Lobby Basement Lower', 'GS Jabu Jabu Lobby Basement Upper', 'GS Jabu Jabu Near Boss'],
+}
+
 var entrancesByRegionChild = {
   'Kokiri Forest': ['Deku Tree', 'Lost Woods', 'Hyrule Field'],
   'Deku Tree': ['Kokiri Forest'],
@@ -215,7 +246,8 @@ var entrancesByRegionChild = {
   'Lon Lon Ranch': ['Hyrule Field'],
   'Lake Hylia': ['Hyrule Field', 'Zoras Domain'],
   'Gerudo Valley': ['Hyrule Field', 'Lake Hylia'],
-  'Desert Colossus': ['Spirit Temple'],
+  'Desert Colossus': ['Spirit Temple', 'Haunted Wasteland'],
+  'Haunted Wasteland': ['Desert Colossus'],
   'Spirit Temple': ['Desert Colossus'],
   'Kakariko Village': ['Hyrule Field', 'Bottom of the Well', 'Death Mountain Trail', 'Graveyard'],
   'Bottom of the Well': ['Kakariko Village'],
@@ -262,6 +294,39 @@ var locationsByRegionAdult = {
   'Ice Cavern': ['Ice Cavern Map Chest', 'Ice Cavern Compass Chest', 'Ice Cavern Iron Boots Chest', 'Ice Cavern Freestanding PoH', 'Sheik in Ice Cavern'],
   'Outside Ganons Castle': ['Ganons Castle Fairy Reward'],
   'Ganons Castle': ['Ganons Castle Forest Trial Chest', 'Ganons Castle Water Trial Left Chest', 'Ganons Castle Water Trial Right Chest', 'Ganons Castle Shadow Trial First Chest', 'Ganons Castle Shadow Trial Second Chest', 'Ganons Castle Spirit Trial First Chest', 'Ganons Castle Spirit Trial Second Chest', 'Ganons Castle Light Trial First Left Chest', 'Ganons Castle Light Trial Second Left Chest', 'Ganons Castle Light Trial Third Left Chest', 'Ganons Castle Light Trial First Right Chest', 'Ganons Castle Light Trial Second Right Chest', 'Ganons Castle Light Trial Third Right Chest', 'Ganons Castle Light Trail Invisible Enemies Chest', 'Ganons Castle Light Trial Lullaby Chest', 'Ganons Tower Boss Key Chest', 'Light Arrows Hint', 'Ganon']
+};
+
+var skulltulasByRegionAdult = {
+  'Kokiri Forest': ['GS Kokiri House of Twins'],
+  'Lost Woods': ['GS Lost Woods Above Stage', 'GS Sacred Forest Meadow'],
+  'Forest Temple': ['GS Forest Temple First Room', 'GS Forest Temple Lobby', 'GS Forest Temple Outdoor East', 'GS Forest Temple Outdoor West', 'GS Forest Temple Basement'],
+  'Hyrule Field': ['GS Hyrule Field near Kakariko', 'GS Hyrule Field Near Gerudo Valley'],
+  'Market': [],
+  'Temple of Time': [],
+  'Lon Lon Ranch': [],
+  'Lake Hylia': ['GS Lake Hylia Giant Tree', 'GS Lab Underwater Crate'],
+  'Water Temple': ['GS Water Temple South Basement', 'GS Water Temple Serpent River', 'GS Water Temple Falling Platform Room', 'GS Water Temple Central Room', 'GS Water Temple Near Boss Key Chest'],
+  'Gerudo Valley': ['GS Gerudo Valley Behind Tent', 'GS Gerudo Valley Pillar'],
+  'Gerudo Fortress': ['GS Gerudo Fortress Archery Range', 'GS Gerudo Fortress Top Floor'],
+  'Gerudo Training Grounds': [],
+  'Haunted Wasteland': ['GS Wasteland Ruins'],
+  'Desert Colossus': ['GS Desert Colossus Tree', 'GS Desert Colossus Hill'],
+  'Spirit Temple': ['GS Spirit Temple Bomb for Light Room', 'GS Spirit Temple Hall to West Iron Knuckle', 'GS Spirit Temple Boulder Room', 'GS Spirit Temple Lobby'],
+  'Kakariko Village': ['GS Kakariko Above Impa\'s House'],
+  'Graveyard': [],
+  'Above Graveyard': [],
+  'Shadow Temple': ['GS Shadow Temple Like Like Room', 'GS Shadow Temple Crusher Room', 'GS Shadow Temple Single Giant Pot', 'GS Shadow Temple Near Ship', 'GS Shadow Temple Tripple Giant Pot'],
+  'Death Mountain Trail': ['GS Mountain Trail Bomb Alcove', 'GS Mountain Trail Path to Crater', 'GS Mountain Trail Above Dodongo\'s Cavern'],
+  'Death Mountain Crater': [],
+  'Fire Temple': ['GS Fire Temple Song of Time Room', 'GS Fire Temple Unmarked Bomb Wall', 'GS Fire Temple East Tower Climb', 'GS Fire Temple East Tower Top', 'GS Fire Temple Basement'],
+  'Goron City': ['GS Goron City Center Platform'],
+  'Dodongos Cavern': ['GS Dodongo\'s Cavern East Side Room', 'GS Dodongo\'s Cavern Vines Above Stairs', 'GS Dodongo\'s Cavern Back Room', 'GS Dodongo\'s Cavern Alcove Above Stairs', 'GS Dodongo\'s Cavern Scarecrow'],
+  'Zora River': ['GS Zora River Near Raised Grottos', 'GS Zora River Above Bridge'],
+  'Zoras Domain': ['GS Zora\'s Domain Frozen Waterfall'],
+  'Zoras Fountain': ['GS Zora\'s Fountain Hidden Cave'],
+  'Ice Cavern': ['GS Ice Cavern Spinning Scythe Room', 'GS Ice Cavern Heart Piece Room', 'GS Ice Cavern Push Block Room'],
+  'Outside Ganons Castle': ['GS Outside Ganon\'s Castle'],
+  'Ganons Castle': []
 };
 
 var entrancesByRegionAdult = {
@@ -314,6 +379,7 @@ $(function() {
     $('<div class="mainbody"><div class="lastchecked"></div><br/>\
     <div class="main tracker"></div>\
     <div class="main current"><div class="currentinner"></div></div>\
+    <div class="main skulls"><div class="skullsinner"></div></div>\
     <div class="main route"></div><br/>\
     <br/><a id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
   };
@@ -348,7 +414,6 @@ $(function() {
         alert('Your browser is not supported')
     }
     var input = $('#files').get(0);
-    console.log('a');
     // Create a reader object
     var reader = new FileReader();
     if (input.files.length) {
@@ -361,7 +426,6 @@ $(function() {
   };
 
   function processFile(e) {
-      console.log('b');
       var file = e.target.result,
           results;
       if (file && file.length) {
@@ -407,8 +471,13 @@ $(function() {
     $('.currentinner a').remove();
     $('.currentinner br').remove();
     $('.currentinner span').remove();
+    $('.skullsinner p').remove();
+    $('.skullsinner span').remove();
+    $('.skullsinner a').remove();
+    $('.skullsinner br').remove();
     $('<p>Current Region: ' + state.currentRegion + ' [' + state.currentAge + ']</p>').appendTo('.currentinner');
     locations = state.currentAge == 'Child' ? locationsByRegionChild : locationsByRegionAdult;
+    skulltulas = state.currentAge == 'Child' ? skulltulasByRegionChild : skulltulasByRegionAdult;
     entrances = state.currentAge == 'Child' ? entrancesByRegionChild : entrancesByRegionAdult;
     for (var i = 0; i < locations[state.currentRegion].length; i++) {
       key = locations[state.currentRegion][i];
@@ -441,6 +510,16 @@ $(function() {
       $('<a class="entrance" id="' + collectedWarps[i] + '">Play ' + collectedWarps[i] + '</a><br/>').appendTo('.currentinner');
     }
     $('<br/><a class="entrance" id="Savewarp ' + state.currentAge  + '">Savewarp to ' + (state.currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.currentinner');
+    $('<p>Gold Skulltulas ['+state.obtainedTokens+'/100]</p>').appendTo('.skullsinner');
+    for (var i = 0; i < skulltulas[state.currentRegion].length; i++) {
+      key = skulltulas[state.currentRegion][i];
+      if ($.inArray(key, state.checkedLocations) == -1) {
+        $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.skullsinner');
+      }
+      else {
+        $('<span class="location checked" id="' + key + '">' + key + '</span><br/>').appendTo('.skullsinner');
+      }
+    }
   };
   
   var updateCollected = function() {
@@ -523,6 +602,10 @@ $(function() {
         $('<span>Ganon (Triforce)</span><br/><br/>').appendTo('.route');
         $('<span>Total Checks Made: '+state.numChecksMade+'/'+state.totalChecks+'</span><br/>').appendTo('.route');
       }
+    }
+    else if (event.target.id.startsWith('GS ')) {
+      state.obtainedTokens++;
+      state.checkedLocations.push(event.target.id);
     }
     else
     {
