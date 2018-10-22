@@ -698,7 +698,6 @@ $(function() {
         state.obtainedTokens--;
       }
       $($('.route span').get().reverse()).each(function() {
-        console.log($(this));
         if ($(this).text().includes(lastCheckedLocation)) {
           $(this).css('text-decoration', 'line-through');
           return false;
