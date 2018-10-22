@@ -459,8 +459,8 @@ $(function() {
           updateAccessible();
           updateCollected();
           updateMedallions();
-          updateForage();
           $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
+          updateForage();
         }
         catch(err) {
           console.log(err);
