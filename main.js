@@ -567,6 +567,10 @@ $(function() {
     updateForage();
   });
   
+  $(document).on('mousedown', 'a', function(e) {
+    e.preventDefault();
+  });
+  
   $(document).on('click', 'a.location', function(event) {
     if (event.target.id.startsWith('Check Pedestal')) {
       state.checkedLocations.push(event.target.id);
