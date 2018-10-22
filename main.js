@@ -697,6 +697,7 @@ $(function() {
       lastCheckedLocation = state.checkedLocations.pop();
       if (lastCheckedLocation in state.testSpoiler) {
         state.currentItemsAll.splice(state.currentItemsAll.indexOf(state.testSpoiler[lastCheckedLocation]));
+        state.numChecksMade--;
       }
       else if (lastCheckedLocation.startsWith('GS ')) {
         state.obtainedTokens--;
