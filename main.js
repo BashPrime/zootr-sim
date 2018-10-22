@@ -381,7 +381,7 @@ $(function() {
     <div class="main current"><div class="currentinner"></div></div>\
     <div class="main skulls"><div class="skullsinner"></div></div>\
     <div class="main route"></div><br/>\
-    <br/><a class="button "id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
+    <br/><a class="button" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
   };
   
   var teardownPageForEnd = function() {
