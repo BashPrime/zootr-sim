@@ -191,7 +191,7 @@ a#undo {
   color:white;
 }
 
-.current a {
+.main a {
   text-decoration: none;
   font-weight: bold;
   color: black;
