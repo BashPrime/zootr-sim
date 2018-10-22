@@ -376,12 +376,16 @@ $(function() {
     $('a').remove();
     $('br').remove();
     drawHeader();
+    var disableUndo = true;
+    if (state && state.checkedLocations.length >= 2) {
+      disableUndo = false;
+    }
     $('<div class="mainbody"><div class="lastchecked"></div><br/>\
     <div class="main tracker"></div>\
     <div class="main current"><div class="currentinner"></div></div>\
     <div class="main skulls"><div class="skullsinner"></div></div>\
     <div class="main route"></div><br/>\
-    <br/><a class="button" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
+    <br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
   };
   
   var teardownPageForEnd = function() {
@@ -628,6 +632,10 @@ $(function() {
       }
     }
     
+    if (state.checkedLocations.length >= 2) {
+      $('#undo').attr('class', 'button');
+    }
+    
     updateAccessible();
     updateCollected();
     updateMedallions();
@@ -681,13 +689,31 @@ $(function() {
   });
   
   $(document).on('click', '#undo', function(event) {
-    lastCheckedLocation = state.checkedLocations.pop();
-    if (lastCheckedLocation in state.testSpoiler) {
-      state.currentItemsAll.splice(state.currentItemsAll.indexOf(state.testSpoiler[lastCheckedLocation]));
+    if (state.checkedLocations.length >= 2) {
+      lastCheckedLocation = state.checkedLocations.pop();
+      if (lastCheckedLocation in state.testSpoiler) {
+        state.currentItemsAll.splice(state.currentItemsAll.indexOf(state.testSpoiler[lastCheckedLocation]));
+      }
+      else if (lastCheckedLocation.startsWith('GS ')) {
+        state.obtainedTokens--;
+      }
+      $($('.route span').get().reverse()).each(function() {
+        console.log($(this));
+        if ($(this).text().includes(lastCheckedLocation)) {
+          $(this).css('text-decoration', 'line-through');
+          return false;
+        }
+      });
+      if (state.checkedLocations.length <= 1) {
+        $('#undo').attr('class', 'button disabled-button');
+      }
+      else {
+        $('#undo').attr('class', 'button');
+      }
+      updateAccessible();
+      updateCollected();
+      updateForage();
     }
-    $('.route span').last().css('text-decoration', 'line-through');
-    updateAccessible();
-    updateCollected();
   });
   
   $(document).on('click', '#reset', function(event) {

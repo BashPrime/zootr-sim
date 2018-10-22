@@ -186,6 +186,10 @@ a#reset {
   color:white;
 }
 
+a.disabled-button {
+  background-color: #888888 !important;
+}
+
 a#undo {
   background-color: #0061ff;
   color:white;
