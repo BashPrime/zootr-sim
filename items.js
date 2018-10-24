@@ -2,12 +2,13 @@ var itemgrid = [
   [ "Slingshot", "Bomb Bag", "Bow", "Fire Arrows", "Dins Fire", "Zeldas Lullaby", "Minuet of Forest" ],
 	[ "Progressive Wallet", "Boomerang", "Progressive Hookshot", "Light Arrows", "Farores Wind", "Eponas Song", "Bolero of Fire" ],
 	[ "Bottle", "Lens of Truth", "Hammer", "Magic Meter", "Nayrus Love", "Sarias Song", "Serenade of Water" ],
-	[ "Kokiri Sword", "Biggoron Sword", "Iron Boots", "Progressive Strength Upgrade", "Stone of Agony", "Suns Song", "Requiem of Spirit" ], 
+	[ "Kokiri Sword", "Ocarina", "Iron Boots", "Progressive Strength Upgrade", "Stone of Agony", "Suns Song", "Requiem of Spirit" ], 
 	[ "Goron Tunic", "Zora Tunic", "Hover Boots", "Progressive Scale", "Child Trade", "Song of Time", "Nocturne of Shadow" ],
 	[ "Deku Shield", "Hylian Shield", "Mirror Shield", "Bombchus", "Adult Trade", "Song of Storms", "Prelude of Light" ],
 ];
 
 var codeToImage = {
+  'Ocarina': ['fairyocarina.png', 'fairyocarina.png', 'ocarina.png'],
   'Slingshot': ['slingshot.png', 'sling3.png', 'sling4.png', 'sling5.png'],
   'Bomb Bag': ['bomb.png', 'bomb2.png', 'bomb3.png', 'bomb4.png'],
   'Bow': ['bow.png', 'bow3.png', 'bow4.png', 'bow5.png'],
