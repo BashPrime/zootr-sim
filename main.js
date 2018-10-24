@@ -487,7 +487,7 @@ $(function() {
       key = locations[state.currentRegion][i];
       if ($.inArray(key, state.checkedLocations) == -1) {
         //if (!(key in logicDict) || logicDict[key]()) {
-        if (key in state.testSpoiler) {
+        if (key in state.testSpoiler || key.startsWith('Check Pedestal')) {
           $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.currentinner');
         }
       }
