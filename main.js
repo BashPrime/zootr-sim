@@ -199,7 +199,7 @@ var locationsByRegionChild = {
   'Graveyard': ['Graveyard Freestanding PoH', 'Gravedigging Tour', 'Shield Grave Chest', 'Heart Piece Grave Chest', 'Composer Grave Chest', 'Song from Composer Grave'],
   'Death Mountain Trail': ['Death Mountain Bombable Chest', 'DM Trail Freestanding PoH', 'Mountain Storms Grotto Chest', 'Mountain Summit Fairy Reward'],
   'Death Mountain Crater': ['Top of Crater Grotto Chest', 'DM Crater Wall Freestanding PoH', 'DMC Deku Scrub Bombs'],
-  'Goron City': ['Goron City Left Maze Chest', 'Goron City Right Maze Chest', 'Goron City Pot Freestanding PoH', 'Rolling Goron as Child', 'Darunias Joy', 'Goron Grotto Deku Scrub Deku Nuts', 'Goron Grotto Deku Scrub Bombs', 'Goron Grotto Deku Scrub Arrows'],
+  'Goron City': ['Goron City Left Maze Chest', 'Goron City Right Maze Chest', 'Goron City Pot Freestanding PoH', 'Rolling Goron as Child', 'Darunias Joy'],
   'Dodongos Cavern': ['DC Deku Scrub Deku Sticks', 'DC Deku Scrub Deku Shield', 'DC Deku Scrub Deku Seeds', 'DC Deku Scrub Deku Nuts', 'Dodongos Cavern Map Chest', 'Dodongos Cavern Compass Chest', 'Dodongos Cavern Bomb Flower Platform', 'Dodongos Cavern Bomb Bag Chest', 'Dodongos Cavern End of Bridge Chest', 'Chest Above King Dodongo', 'King Dodongo Heart', 'King Dodongo'],
   'Zora River': ['Zora River Lower Freestanding PoH', 'Zora River Upper Freestanding PoH', 'Frog Ocarina Game', 'Frogs in the Rain', 'Zora River Plateau Open Grotto Chest', 'ZR Grotto Deku Scrub Red Potion', 'ZR Grotto Deku Scrub Green Potion'],
   'Zoras Domain': ['Diving Minigame', 'Zoras Domain Torch Run', 'King Zora Moves'],
