@@ -4,7 +4,7 @@ var itemgrid = [
 	[ "Bottle", "Lens of Truth", "Hammer", "Magic Meter", "Nayrus Love", "Sarias Song", "Serenade of Water" ],
 	[ "Kokiri Sword", "Biggoron Sword", "Iron Boots", "Progressive Strength Upgrade", "Stone of Agony", "Suns Song", "Requiem of Spirit" ], 
 	[ "Goron Tunic", "Zora Tunic", "Hover Boots", "Progressive Scale", "Child Trade", "Song of Time", "Nocturne of Shadow" ],
-	[ "Deku Shield", "Hylian Shield", "Mirror Shield", "Gold Skulltulas", "Adult Trade", "Song of Storms", "Prelude of Light" ],
+	[ "Deku Shield", "Hylian Shield", "Mirror Shield", "Bombchus", "Adult Trade", "Song of Storms", "Prelude of Light" ],
 ];
 
 var codeToImage = {
@@ -44,6 +44,7 @@ var codeToImage = {
   'Deku Shield': ['shield1.png', 'shield1.png', 'shield1.png', 'shield1.png', 'shield1.png'],
   'Hylian Shield': ['shield2.png', 'shield2.png', 'shield2.png', 'shield2.png'],
   'Mirror Shield': ['shield3.png', 'shield3.png'],
+  'Bombchus': ['bombchu.png', 'bombchu.png'],
   'Song of Storms': ['songofstorms.png', 'songofstorms.png'],
   'Prelude of Light': ['yellow_note.png', 'yellow_note.png']
 };
