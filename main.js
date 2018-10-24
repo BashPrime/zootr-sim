@@ -514,7 +514,7 @@ $(function() {
       $('<a class="entrance" id="' + collectedWarps[i] + '">Play ' + collectedWarps[i] + '</a><br/>').appendTo('.currentinner');
     }
     $('<br/><a class="entrance" id="Savewarp ' + state.currentAge  + '">Savewarp to ' + (state.currentAge == 'Child' ? 'Kokiri Forest' : 'Temple of Time') + '</a><br/>').appendTo('.currentinner');
-    $('<p>Gold Skulltulas ['+state.obtainedTokens+'/100]</p>').appendTo('.skullsinner');
+    $('<p>Gold Skulltulas ['+(state.currentItemsAll.filter((x) => x == 'Gold Skulltula Token').length)+'/100]</p>').appendTo('.skullsinner');
     for (var i = 0; i < skulltulas[state.currentRegion].length; i++) {
       key = skulltulas[state.currentRegion][i];
       if ($.inArray(key, state.checkedLocations) == -1) {
@@ -611,8 +611,8 @@ $(function() {
         $('<span>Total Checks Made: '+state.numChecksMade+'/'+state.totalChecks+'</span><br/>').appendTo('.route');
       }
     }
-    else if (event.target.id.startsWith('GS ')) {
-      state.obtainedTokens++;
+    else if (!(event.target.id in state.testSpoiler) && event.target.id.startsWith('GS ')) {
+      state.currentItemsAll.push('Gold Skulltula Token');
       state.checkedLocations.push(event.target.id);
     }
     else
