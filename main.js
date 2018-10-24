@@ -182,7 +182,7 @@ var regionChangingChecks = {
 var locationsByRegionChild = {
   'Kokiri Forest': ['Kokiri Sword Chest', 'Mido Chest Top Left', 'Mido Chest Top Right', 'Mido Chest Bottom Left', 'Mido Chest Bottom Right', 'Kokiri Forest Storms Grotto Chest'],
   'Deku Tree': ['Deku Tree Lobby Chest', 'Deku Tree Compass Chest', 'Deku Tree Compass Room Side Chest', 'Deku Tree Basement Chest', 'Deku Tree Slingshot Chest', 'Deku Tree Slingshot Room Side Chest', 'Queen Gohma Heart', 'Queen Gohma'],
-  'Lost Woods': ['Skull Kid', 'Ocarina Memory Game', 'Target in Woods', 'Deku Salesman Woods', 'Song from Saria', 'Lost Woods Generic Grotto Chest', 'Deku Theater Skull Mask', 'Deku Theater Mask of Truth', 'Deku Salesman Lost Woods Grotto', 'Wolfos Grotto Chest'],
+  'Lost Woods': ['Skull Kid', 'Ocarina Memory Game', 'Target in Woods', 'Deku Salesman Woods', 'LW Deku Scrub Deku Stick Upgrade', 'Song from Saria', 'Lost Woods Generic Grotto Chest', 'Deku Theater Skull Mask', 'Deku Theater Mask of Truth', 'Deku Salesman Lost Woods Grotto', 'LW Grotto Deku Scrub Deku Nut Upgrade', 'Wolfos Grotto Chest'],
   'Hyrule Field': ['Ocarina of Time', 'Song from Ocarina of Time', 'Remote Southern Grotto Chest', 'Field Near Lake Outside Fence Grotto Chest', 'Deku Salesman Hyrule Field Grotto', 'Field West Castle Town Grotto Chest', 'Tektite Grotto Freestanding PoH'],
   'Market': ['Child Shooting Gallery', 'Bombchu Bowling Bomb Bag', 'Bombchu Bowling Piece of Heart', 'Treasure Chest Game', 'Dog Lady'],
   'Temple of Time': ['Check Pedestal (Stones)'],
@@ -265,7 +265,7 @@ var entrancesByRegionChild = {
 
 var locationsByRegionAdult = {
   'Kokiri Forest': ['Kokiri Forest Storms Grotto Chest'],
-  'Lost Woods': ['Deku Salesman Woods', 'Lost Woods Generic Grotto Chest', 'Deku Salesman Lost Woods Grotto', 'Wolfos Grotto Chest', 'Sheik Forest Song'],
+  'Lost Woods': ['Deku Salesman Woods', 'LW Deku Scrub Deku Stick Upgrade', 'Lost Woods Generic Grotto Chest', 'Deku Salesman Lost Woods Grotto', 'LW Grotto Deku Scrub Deku Nut Upgrade', 'Wolfos Grotto Chest', 'Sheik Forest Song'],
   'Forest Temple': ['Forest Temple First Chest', 'Forest Temple Chest Behind Lobby', 'Forest Temple Outside Hookshot Chest', 'Forest Temple Map Chest', 'Forest Temple Well Chest', 'Forest Temple Block Push Chest', 'Forest Temple Floormaster Chest', 'Forest Temple Boss Key Chest', 'Forest Temple Red Poe Chest', 'Forest Temple Bow Chest',  'Forest Temple Blue Poe Chest', 'Forest Temple Falling Room Chest', 'Forest Temple Near Boss Chest', 'Phantom Ganon Heart', 'Phantom Ganon'],
   'Hyrule Field': ['Remote Southern Grotto Chest', 'Field Near Lake Outside Fence Grotto Chest', 'Deku Salesman Hyrule Field Grotto', 'Field West Castle Town Grotto Chest', 'Tektite Grotto Freestanding PoH'],
   'Market': ['10 Big Poes'],
@@ -487,7 +487,7 @@ $(function() {
       key = locations[state.currentRegion][i];
       if ($.inArray(key, state.checkedLocations) == -1) {
         //if (!(key in logicDict) || logicDict[key]()) {
-        if (true) {
+        if (key in state.testSpoiler) {
           $('<a class="location" id="' + key + '">' + key + '</a><br/>').appendTo('.currentinner');
         }
       }
