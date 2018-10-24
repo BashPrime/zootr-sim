@@ -371,6 +371,11 @@ $(function() {
     $('<span class="credit">made by scatter</span>').appendTo('.headerbar');
   }
   
+  var drawFooter = function() {
+    $('<div class="footer"></div>').appendTo('body');
+    $('<a href="https://github.com/scattertv/zootr-sim/issues/new">Report an Issue</a>').appendTo('.footer');
+  }
+  
   var setupPageForPlaying = function() {
     $('div').remove();
     $('a').remove();
@@ -386,6 +391,7 @@ $(function() {
     <div class="main skulls"><div class="skullsinner"></div></div>\
     <div class="main route"></div><br/>\
     <br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
+    drawFooter();
   };
   
   var teardownPageForEnd = function() {
@@ -397,6 +403,7 @@ $(function() {
     <span class="subheader">Only guaranteed to work with tournament logs.</span><br/><br/>\
     <input type=file id=files /><br/></div></div>').appendTo('body');
     $('#files').on('change', onFilesChanged);
+    drawFooter();
   };
   
   

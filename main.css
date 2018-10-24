@@ -332,3 +332,13 @@ a.entrance::before {
   text-align: left;
 }
 
+.footer {
+    border: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin:0;
+    padding:10 0 20 0;
+    font-size: 14px;
+    text-align: center;
+}
