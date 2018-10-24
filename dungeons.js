@@ -9,7 +9,7 @@ var dungeongrid = [
   'Spirit Temple', 
   'Free',
   'Bottom of the Well', 
-  'Ice Cavern', 
+  'Gerudo Fortress', 
   'Gerudo Training Grounds', 
   'Ganons Castle' 
 ];
@@ -27,6 +27,7 @@ var nameToImageTitle = {
   'Spirit Temple': 'spirit.png',
   'Bottom of the Well': 'botw.png',
   'Ice Cavern': 'ice.png',
+  'Gerudo Fortress': 'gf.png',
   'Gerudo Training Grounds': 'gtg.png',
   'Ganons Castle': 'gc.png'
 }
@@ -62,6 +63,7 @@ function hasKeys(dungeon) {
     'Spirit Temple':0,
     'Spirit Temple':0,
     'Bottom of the Well':0,
+    'Gerudo Fortress':0,
     'Gerudo Training Grounds':0,
     'Ganons Castle':0
   };
