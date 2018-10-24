@@ -678,7 +678,12 @@ $(function() {
     }
     else if (state.currentRegion == 'Kokiri Forest' && event.target.id == 'Hyrule Field' && state.currentAge == 'Child' && $.inArray('Gift from Saria', state.checkedLocations) == -1) {
       state.checkedLocations.push('Gift from Saria');
-      item = state.testSpoiler['Gift from Saria'];
+      if ('Gift from Saria' in state.testSpoiler) {
+        item = state.testSpoiler['Gift from Saria'];
+      }
+      else {
+        item = 'Ocarina';
+      }
       state.currentItemsAll.push(item);
       if ($.inArray(item, importantItems) != -1) {
         state.currentItemsImportant.push(item);
