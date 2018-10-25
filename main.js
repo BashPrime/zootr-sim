@@ -711,7 +711,7 @@ $(function() {
         state.numChecksMade--;
       }
       else if (lastCheckedLocation.startsWith('GS ')) {
-        state.obtainedTokens--;
+        state.currentItemsAll.splice(state.currentItemsAll.indexOf('Gold Skulltula Token'));
       }
       $($('.route span').get().reverse()).each(function() {
         if ($(this).text().includes(lastCheckedLocation)) {
