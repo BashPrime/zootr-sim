@@ -707,11 +707,11 @@ $(function() {
     if (state.checkedLocations.length >= 2) {
       lastCheckedLocation = state.checkedLocations.pop();
       if (lastCheckedLocation in state.testSpoiler) {
-        state.currentItemsAll.splice(state.currentItemsAll.indexOf(state.testSpoiler[lastCheckedLocation]));
+        state.currentItemsAll.splice(state.currentItemsAll.lastIndexOf(state.testSpoiler[lastCheckedLocation]));
         state.numChecksMade--;
       }
       else if (lastCheckedLocation.startsWith('GS ')) {
-        state.currentItemsAll.splice(state.currentItemsAll.indexOf('Gold Skulltula Token'));
+        state.currentItemsAll.splice(state.currentItemsAll.lastIndexOf('Gold Skulltula Token'));
       }
       $($('.route span').get().reverse()).each(function() {
         if ($(this).text().includes(lastCheckedLocation)) {
