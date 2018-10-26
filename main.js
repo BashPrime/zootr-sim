@@ -24,6 +24,8 @@ function getInitialState() {
     
     medallions: {},
     
+    hash_items: [],
+    
     lighthint: '',
     
     knownMedallions: {
@@ -419,6 +421,50 @@ $(function() {
     }
   });
   
+  function get_hash_items(hash_val) {
+    var hash_index = [
+      'Deku Stick',
+      'Deku Nut',
+      'Bow',
+      'Slingshot',
+      'Fairy Ocarina',
+      'Bombchu',
+      'Longshot',
+      'Boomerang',
+      'Lens of Truth',
+      'Beans',
+      'Hammer',
+      'Bottled Fish',
+      'Bottled Milk',
+      'Mask of Truth',
+      'SOLD OUT',
+      'Cucco',
+      'Mushroom',
+      'Saw',
+      'Frog',
+      'Master Sword',
+      'Mirror Shield',
+      'Kokiri Tunic',
+      'Hover Boots',
+      'Silver Gauntlets',
+      'Gold Scale',
+      'Stone of Agony',
+      'Skull Token',
+      'Heart Container',
+      'Boss Key', 
+      'Compass', 
+      'Map', 
+      'Big Magic' 
+    ];
+    var retval = [];
+    for (var i = 0; i < 5; i++) {
+      var index = hash_val & 31;
+      hash_val = hash_val >> 5;
+      retval.push(hash_index[index]);
+    }
+    return retval;
+  }
+  
   function onFilesChanged() {
     if (!window.FileReader) {
         alert('Your browser is not supported')
@@ -461,6 +507,14 @@ $(function() {
           state.medallions['Shadow Temple'] = state.testSpoiler['Bongo Bongo'];
           state.medallions['Spirit Temple'] = state.testSpoiler['Twinrova'];
           state.playing = true;
+          var seed = '';
+          var s = 'D42JKRANFJBAAKAJAB' + '3.0' + '12';
+          var numeric_seed = sha256(unescape(encodeURIComponent(s)));
+          var hash_val_str = numeric_seed.substr(numeric_seed.length - 8);
+          var hash_val = parseInt(hash_val_str, 16);
+          console.log(numeric_seed);
+          console.log(hash_val);
+          state.hash_items = get_hash_items(hash_val);
           setupPageForPlaying();
           updateAccessible();
           updateCollected();
