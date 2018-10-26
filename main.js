@@ -265,7 +265,7 @@ var entrancesByRegionChild = {
 
 var locationsByRegionAdult = {
   'Kokiri Forest': ['Kokiri Forest Storms Grotto Chest'],
-  'Lost Woods': ['Deku Salesman Woods', 'LW Deku Scrub Deku Stick Upgrade', 'LW Deku Scrub Deku Nuts', 'LW Deku Scrub Deku Sticks', 'LW Grotto Deku Scrub Arrows', 'Lost Woods Generic Grotto Chest', 'Deku Salesman Lost Woods Grotto', 'LW Grotto Deku Scrub Deku Nut Upgrade', 'Wolfos Grotto Chest', 'Sheik Forest Song', 'SFM Grotto Deku Scrub Red Potion', 'SFM Grotto Deku Scrub Green Potion'],
+  'Lost Woods': ['LW Deku Scrub Deku Nuts', 'LW Deku Scrub Deku Sticks', 'LW Grotto Deku Scrub Arrows', 'Lost Woods Generic Grotto Chest', 'Deku Salesman Lost Woods Grotto', 'LW Grotto Deku Scrub Deku Nut Upgrade', 'Wolfos Grotto Chest', 'Sheik Forest Song', 'SFM Grotto Deku Scrub Red Potion', 'SFM Grotto Deku Scrub Green Potion'],
   'Forest Temple': ['Forest Temple First Chest', 'Forest Temple Chest Behind Lobby', 'Forest Temple Outside Hookshot Chest', 'Forest Temple Map Chest', 'Forest Temple Well Chest', 'Forest Temple Block Push Chest', 'Forest Temple Floormaster Chest', 'Forest Temple Boss Key Chest', 'Forest Temple Red Poe Chest', 'Forest Temple Bow Chest',  'Forest Temple Blue Poe Chest', 'Forest Temple Falling Room Chest', 'Forest Temple Near Boss Chest', 'Phantom Ganon Heart', 'Phantom Ganon'],
   'Hyrule Field': ['Remote Southern Grotto Chest', 'Field Near Lake Outside Fence Grotto Chest', 'Deku Salesman Hyrule Field Grotto', 'HF Grotto Deku Scrub Piece of Heart', 'Field West Castle Town Grotto Chest', 'Tektite Grotto Freestanding PoH'],
   'Market': ['10 Big Poes'],
