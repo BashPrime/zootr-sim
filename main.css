@@ -188,6 +188,7 @@ a#reset {
 
 a.disabled-button {
   background-color: #888888 !important;
+  cursor:default !important;
 }
 
 a#undo {
