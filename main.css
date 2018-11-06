@@ -72,6 +72,39 @@ body {
   margin:0;
 }
 
+.dark-mode {
+  background-color: #222222;
+  color: #d2d2d2;
+}
+
+#dark-mode-toggle {
+  display:inline-block;
+  position:absolute;
+  margin-top:64px;
+  font-size: 14px;
+  padding:10px;
+}
+
+#dark-mode-toggle:visited {
+  color:rgb(0,0,238);
+}
+
+.dark-mode #dark-mode-toggle {
+  color: #007fff;
+}
+
+.dark-mode #dark-mode-toggle:visited {
+  color: #007fff;
+}
+
+.dark-mode a {
+  color: #007fff;
+}
+
+.dark-mode a:visited {
+  color: #ae00ff;
+}
+
 div.headerbar {
   margin:0;
   padding:0;
@@ -119,6 +152,10 @@ div {
   margin: 10px;
 }
 
+.dark-mode div.main {
+  border: 1px solid #bbb;
+}
+
 div.mainbody {
   margin-top:64px;
   margin-left:0px;
@@ -128,6 +165,10 @@ div.mainbody {
   padding:10px 0px;
   border:0;
   text-align: center;
+}
+
+.dark-mode div.mainbody {
+  border:0;
 }
 
 div.start {
@@ -141,7 +182,6 @@ div.start {
   right:0;
   margin:auto;
   text-align: center;
-  
 }
 
 div.currentinner {
@@ -179,11 +219,15 @@ a.button {
   margin:10px;
   border-radius:6px;
   border: 2px solid black;
+  color:white;
+}
+
+.dark-mode a.button {
+  color: #efefef;
 }
 
 a#reset {
   background-color:#ee0000;
-  color:white;
 }
 
 a.disabled-button {
@@ -193,13 +237,16 @@ a.disabled-button {
 
 a#undo {
   background-color: #0061ff;
-  color:white;
 }
 
 .main a {
   text-decoration: none;
   font-weight: bold;
   color: black;
+}
+
+.dark-mode .main a {
+  color: #d2d2d2;
 }
 
 a.useChu {
@@ -229,6 +276,10 @@ a.entrance::before {
   border-bottom: 2px solid black;
 }
 
+.dark-mode .lastchecked {
+  border-bottom: 2px solid #bbb;
+}
+
 .checked {
   color:#888888;
 }
@@ -237,6 +288,7 @@ a.entrance::before {
   border:0;
   margin:0;
   padding:0;
+  background-color:#282828;
 }
 
 .dungeons {
@@ -256,7 +308,10 @@ a.entrance::before {
   background-repeat: no-repeat;
   padding:4px;
   border:0;
-  background-color:#282828;
+}
+
+.dark-mode .items {
+  background-color:#222;
 }
 
 .medallions {
@@ -276,6 +331,22 @@ a.entrance::before {
   color:white;
   padding:1px;
   border:0;
+}
+
+.dark-mode .dungeon {
+  background-color:#222;
+}
+
+.dark-mode .dungeontitle {
+  background-color:transparent !important;
+  -webkit-filter:brightness(90%);
+    -moz-filter:brightness(90%);
+    filter: url(#brightness); /* required for FF */
+    filter:brightness(90%);
+}
+
+.dark-mode .dungeon > div {
+  background-color:#222;
 }
 
 .dungeontitle {
@@ -326,7 +397,12 @@ a.entrance::before {
 }
 
 .disable {
-    background-blend-mode:overlay;
+    /*background-blend-mode:overlay;*/
+    background-color: transparent !important;
+    -webkit-filter:brightness(30%);
+      -moz-filter:brightness(30%);
+      filter: url(#brightness); /* required for FF */
+      filter:brightness(30%);
 }
 
 .route {

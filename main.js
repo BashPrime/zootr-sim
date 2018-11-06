@@ -1,3 +1,5 @@
+var darkModeOn = false;
+
 function getInitialState() {
   return {
     playing: false,
@@ -365,7 +367,7 @@ var entrancesByRegionAdult = {
 $(function() {  
   
   var drawHeader = function() {
-    $('<div class="headerbar noselect"></div>').appendTo('body');
+    $('<div class="headerbar noselect"></div><a href="" id="dark-mode-toggle">'+(darkModeOn ? 'Light' : 'Dark')+' Mode</a>').appendTo('body');
     $('<div class="title"><img src="images/ocarina.png" width="50px" height="50px" draggable="false"/></div>').appendTo('.headerbar');
     $('<span>ZooTR Sim</span>').appendTo('.title');
     $('<span class="credit">made by scatter</span>').appendTo('.headerbar');
@@ -405,6 +407,15 @@ $(function() {
     $('#files').on('change', onFilesChanged);
     drawFooter();
   };
+  
+  localforage.getItem('dark-mode-on', function(err, val) {
+    if (val) {
+      darkModeOn = val;
+    }
+    if (darkModeOn) {
+      $('body').toggleClass('dark-mode');
+    }
+  });
   
   teardownPageForEnd();
   
@@ -735,5 +746,20 @@ $(function() {
     state = getInitialState();
     updateForage();
     teardownPageForEnd();
+  });
+  
+  $(document).on('click', '#dark-mode-toggle', function(event) {
+    event.preventDefault();
+    
+    $('body').toggleClass('dark-mode');
+    if ($('body').hasClass('dark-mode')) {
+      $('#dark-mode-toggle').text('Light Mode');
+      darkModeOn = true;
+    }
+    else {
+      $('#dark-mode-toggle').text('Dark Mode');
+      darkModeOn = false;
+    }
+    localforage.setItem('dark-mode-on', darkModeOn);
   });
 });
