@@ -397,9 +397,9 @@ $(function() {
     $('<div class="mainbody"><div class="lastchecked"></div><br/>\
     <div class="main tracker"></div>\
     <div class="main current"><div class="currentinner"></div></div>\
+    <div class="main hints"></div>\
     <div class="main skulls"><div class="skullsinner"></div></div>\
-    <div class="main route"></div>\
-    <div class="main hints"></div><br/>\
+    <div class="main route"></div><br/>\
     <br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
     drawFooter();
   };
