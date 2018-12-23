@@ -461,8 +461,13 @@ $(function() {
       if (file && file.length) {
         try {
           results = file.split("Locations:")[1].split("Playthrough:")[0].split('\n').filter(el => el.trim() != "");
-          state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "");
-          hints = file.split("Gossip Stone Hints:")[1].split('\n').filter(el => el.trim() != "");
+          if (file.includes("File Select Hash:")) {
+            state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "");
+          }
+          hints = [];
+          if (file.includes("Death Mountain Crater (Bombable Wall)")) {
+            hints = file.split("Gossip Stone Hints:")[1].split('\n').filter(el => el.trim() != "");
+          }
           state.totalChecks = results.length;
           for (var i = 0; i < results.length; i++) {
             loc = results[i].split(':')[0].trim();
@@ -606,7 +611,10 @@ $(function() {
     $('.hints br').remove();
     $('.hints a').remove();
     $('<span>AVAILABLE HINTS</span><br/><br/>').appendTo('.hints');
-    if (state.currentRegion in state.gossipHints) {
+    if (!('Kokiri Forest' in state.gossipHints)) {
+      $('<span>Hints unavailable! Use a log from a newer version to access them.</span><br/><br/>').appendTo('.hints');
+    }
+    else if (state.currentRegion in state.gossipHints) {
       if (!('Generic Grotto' in state.knownHints)) {
         $('<a class="hint" id="Generic Grotto">Generic Grotto</span><br/>').appendTo('.hints');
       }
