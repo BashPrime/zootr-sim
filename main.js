@@ -3,6 +3,9 @@ var darkModeOn = false;
 function getInitialState() {
   return {
     playing: false,
+
+    fsHash: [],
+
     currentRegion: 'Kokiri Forest',
     
     currentChild: 1,
@@ -39,6 +42,10 @@ function getInitialState() {
       'Spirit Temple': '???',
       'Free': '???',
     },
+
+    gossipHints: {},
+
+    knownHints: {},
   };
 }
 
@@ -391,7 +398,8 @@ $(function() {
     <div class="main tracker"></div>\
     <div class="main current"><div class="currentinner"></div></div>\
     <div class="main skulls"><div class="skullsinner"></div></div>\
-    <div class="main route"></div><br/>\
+    <div class="main route"></div>\
+    <div class="main hints"></div><br/>\
     <br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
     drawFooter();
   };
@@ -427,6 +435,7 @@ $(function() {
       updateAccessible();
       updateCollected();
       updateMedallions();
+      updateHints();
     }
   });
   
@@ -452,11 +461,28 @@ $(function() {
       if (file && file.length) {
         try {
           results = file.split("Locations:")[1].split("Playthrough:")[0].split('\n').filter(el => el.trim() != "");
+          state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "");
+          hints = file.split("Gossip Stone Hints:")[1].split('\n').filter(el => el.trim() != "");
           state.totalChecks = results.length;
           for (var i = 0; i < results.length; i++) {
             loc = results[i].split(':')[0].trim();
             item = results[i].split(':')[1].trim();
             state.testSpoiler[loc] = item;
+          }
+          for (var i = 0; i < hints.length; i++) {
+            if (hints[i].split(':')[0] == 'Generic Grotto') {
+              state.gossipHints['Generic Grotto'] = hints[i].split(':')[1].trim();
+            }
+            else {
+              region = hints[i].split('(')[0].trim();
+              if (region == 'Zoras River') region = 'Zora River';
+              stone = hints[i].split('(')[1].split(')')[0].trim();
+              hinttext = hints[i].split(':')[1].trim();
+              if (!(region in state.gossipHints)) {
+                state.gossipHints[region] = {};
+              }
+              state.gossipHints[region][stone] = hinttext;
+            }
           }
           state.checkedLocations.push('Links Pocket');
           state.currentItemsAll.push(state.testSpoiler['Links Pocket']);
@@ -476,6 +502,7 @@ $(function() {
           updateAccessible();
           updateCollected();
           updateMedallions();
+          updateHints();
           $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
           updateForage();
         }
@@ -572,6 +599,35 @@ $(function() {
     $('.medallions br').remove();
     //drawDungeons();
   };
+
+  var updateHints = function() {
+    $('.hints p').remove();
+    $('.hints span').remove();
+    $('.hints br').remove();
+    $('.hints a').remove();
+    $('<span>AVAILABLE HINTS</span><br/><br/>').appendTo('.hints');
+    if (state.currentRegion in state.gossipHints) {
+      if (!('Generic Grotto' in state.knownHints)) {
+        $('<a class="hint" id="Generic Grotto">Generic Grotto</span><br/>').appendTo('.hints');
+      }
+      else {
+        $('<span class="hint checked" id="Generic Grotto">Generic Grotto</span><br/>').appendTo('.hints');
+      }
+      for (stone in state.gossipHints[state.currentRegion]) {
+        if (!((state.currentRegion + ' ' + stone) in state.knownHints)) {
+          $('<a class="hint" id="'+stone+'">'+stone+'</span><br/>').appendTo('.hints');
+        }
+        else {
+          $('<span class="hint checked">'+stone+'</span><br/>').appendTo('.hints');
+        }
+      }
+      $('<br/>').appendTo('.hints');
+    }
+    $('<span>CHECKED HINTS</span><br/><br/>').appendTo('.hints');
+    for (stone in state.knownHints) {
+      $('<span>'+stone+': '+state.knownHints[stone]+'</span><br/>').appendTo('.hints');
+    }
+  };
   
   var updateForage = function() {
     localforage.setItem('state', state);
@@ -660,6 +716,19 @@ $(function() {
     updateAccessible();
     updateCollected();
     updateMedallions();
+    updateHints();
+    updateForage();
+  });
+
+  $(document).on('click', 'a.hint', function(event) {
+    stone = event.target.id;
+    if (stone == 'Generic Grotto') {
+      state.knownHints['Generic Grotto'] = state.gossipHints['Generic Grotto'];
+    }
+    else {
+      state.knownHints[state.currentRegion + ' ' + stone] = state.gossipHints[state.currentRegion][stone];
+    }
+    updateHints();
     updateForage();
   });
   
@@ -711,6 +780,7 @@ $(function() {
     updateAccessible();
     updateCollected();
     updateMedallions();
+    updateHints();
     updateForage();
   });
   

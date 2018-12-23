@@ -409,6 +409,10 @@ a.entrance::before {
   text-align: left;
 }
 
+.hints {
+  text-align: left;
+}
+
 .footer {
     border: 0;
     left: 0;

@@ -186,6 +186,27 @@ var entrancesByRegionChild = {
   'Zoras Fountain': ['Zoras Domain', 'Jabu Jabus Belly'],
   'Jabu Jabus Belly': ['Zoras Fountain'],
 };
+
+var gossipStonesByRegionChild = {
+    'Death Mountain Crater': ['Bombable Wall'],
+    'Death Mountain Trail': ['Biggoron'],
+    'Desert Colossus': ['Spirit Temple'],
+    'Dodongos Cavern': ['Bombable Wall'],
+    'Gerudo Valley': ['Waterfall'],
+    'Goron City': ['Maze', 'Medigoron'],
+    'Graveyard': ['Shadow Temple'],
+    'Hyrule Castle': ['Malon', 'Rock Wall', 'Storms Grotto'],
+    'Hyrule Field': ['Hammer Grotto'],
+    'Kokiri Forest': ['Deku Tree Left', 'Deku Tree Right', 'Storms'],
+    'Lake Hylia': ['Lab', 'Southeast Corner', 'Southwest Corner'],
+    'Lost Woods': ['Bridge'],
+    'Sacred Forest Meadow': ['Maze Lower', 'Maze Upper', 'Saria'],
+    'Temple of Time': ['Left', 'Left-Center', 'Right', 'Right-Center'],
+    'Zoras Domain': ['Mweep'],
+    'Zoras Fountain': ['Fairy', 'Jabu'],
+    'Zoras River': ['Plateau', 'Waterfall'],
+};
+
 var locationsByRegionAdult = {
   'Kokiri Forest': ['Kokiri Forest Storms Grotto Chest'],
   'Lost Woods': ['Deku Salesman Woods', 'Lost Woods Generic Grotto Chest', 'Deku Salesman Lost Woods Grotto', 'Wolfos Grotto Chest', 'Sheik Forest Song'],
@@ -250,4 +271,24 @@ var entrancesByRegionAdult = {
   'Ice Cavern': ['Zoras Fountain'],
   'Outside Ganons Castle': ['Ganons Castle', 'Market'],
   'Ganons Castle': ['Outside Ganons Castle']
+};
+
+var gossipStonesByRegionAdult = {
+    'Death Mountain Crater': ['Bombable Wall'],
+    'Death Mountain Trail': ['Biggoron'],
+    'Desert Colossus': ['Spirit Temple'],
+    'Dodongos Cavern': ['Bombable Wall'],
+    'Gerudo Valley': ['Waterfall'],
+    'Goron City': ['Maze', 'Medigoron'],
+    'Graveyard': ['Shadow Temple'],
+    'Hyrule Castle': ['Malon', 'Rock Wall', 'Storms Grotto'],
+    'Hyrule Field': ['Hammer Grotto'],
+    'Kokiri Forest': ['Deku Tree Left', 'Deku Tree Right', 'Storms'],
+    'Lake Hylia': ['Lab', 'Southeast Corner', 'Southwest Corner'],
+    'Lost Woods': ['Bridge'],
+    'Sacred Forest Meadow': ['Maze Lower', 'Maze Upper', 'Saria'],
+    'Temple of Time': ['Left', 'Left-Center', 'Right', 'Right-Center'],
+    'Zoras Domain': ['Mweep'],
+    'Zoras Fountain': ['Fairy', 'Jabu'],
+    'Zoras River': ['Plateau', 'Waterfall'],
 };
