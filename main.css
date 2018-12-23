@@ -114,33 +114,49 @@ div.headerbar {
   height:64px;
   background-image: linear-gradient(#333, black);
   background-repeat: no-repeat;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title {
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 0;
   padding:0;
   color:white;
   font-size: 1.5em;
   border:0;
-  display: inline-block;
+  margin:0;
 }
 
 .title img {
   vertical-align: middle;
-  margin-right: 8px;
+  padding-left: 12px;
 }
 
 .title span {
+  vertical-align:middle;
+  padding-left:6px;
   text-shadow: 0px 0px 10px #cccccc;
 }
 
+.hash {
+  padding: 0;
+  border: 0;
+}
+
+.hash-item {
+  border:0;
+  width:32px;
+  height:32px;
+  margin:0;
+  padding:0;
+}
+
 .credit {
-  position: absolute;
-  top:38;
-  right:8;
+  align-self: flex-end;
   color:white;
+  padding-left: 59px;
+  padding-right: 6px;
+  padding-bottom: 4px;
 }
 
 div {

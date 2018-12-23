@@ -157,7 +157,7 @@ function drawItems() {
       imagename = image[0];
       imageEnable = image[1];
       $('<div class="item'+ (!imageEnable ? ' disable' : '') +'" id="'+idname+'"></div>').appendTo('.items');
-      $('#'+idname).css("background-image", "url('images/"+imagename+"')");  
+      $('.item#'+idname).css("background-image", "url('images/"+imagename+"')");  
     }
     $('<br/>').appendTo('.items');
   }

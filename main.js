@@ -51,6 +51,45 @@ function getInitialState() {
 
 var state = getInitialState();
 
+function getHashImage(item) {
+  return (
+      {
+    'Deku Stick': 'stick.png',
+    'Deku Nut': 'nut.png',
+    'Bow': 'bow.png',
+    'Slingshot': 'slingshot.png',
+    'Fairy Ocarina': 'fairyocarina.png',
+    'Bombchu': 'bombchu.png',
+    'Longshot': 'longshot.png',
+    'Boomerang': 'boomerang.png',
+    'Lens of Truth': 'lens.png',
+    'Beans': 'bean.png',
+    'Hammer': 'hammer.png',
+    'Bottled Fish': 'unknown-small.png',
+    'Bottled Milk': 'unknown-small.png',
+    'Mask of Truth': 'truth.png',
+    'SOLD OUT': 'unknown-small.png',
+    'Cucco': 'cucco.png',
+    'Mushroom': 'mushroom.png',
+    'Saw': 'saw.png',
+    'Frog': 'frog.png',
+    'Master Sword': 'sword2.png',
+    'Mirror Shield': 'shield3.png',
+    'Kokiri Tunic': 'greentunic.png',
+    'Hover Boots': 'hoverboots.png',
+    'Silver Gauntlets': 'lift2.png',
+    'Gold Scale': 'scale2.png',
+    'Stone of Agony': 'agony.png',
+    'Skull Token': 'skulltula.png',
+    'Heart Container': 'unknown-small.png',
+    'Boss Key': 'boss_key.png',
+    'Compass': 'unknown-small.png',
+    'Map': 'unknown-small.png',
+    'Big Magic': 'magic2.png',
+      }
+  )[item];
+}
+
 var importantItems = [
   'Bow',
   'Progressive Hookshot',
@@ -377,6 +416,13 @@ $(function() {
     $('<div class="headerbar noselect"></div><a href="" id="dark-mode-toggle">'+(darkModeOn ? 'Light' : 'Dark')+' Mode</a>').appendTo('body');
     $('<div class="title"><img src="images/ocarina.png" width="50px" height="50px" draggable="false"/></div>').appendTo('.headerbar');
     $('<span>ZooTR Sim</span>').appendTo('.title');
+    var hashhtml = '<div class="hash">';
+    for (var i = 0; i < state.fsHash.length; i++) {
+      hashhtml += '<div class="hash-item" id="' + state.fsHash[i] + '" style="background-image: url(\'images/'+getHashImage(state.fsHash[i])+'\')"></div>';
+      console.log(hashhtml);
+    }
+    hashhtml += '</div>';
+    $(hashhtml).appendTo('.headerbar');
     $('<span class="credit">made by scatter</span>').appendTo('.headerbar');
   }
   
@@ -462,7 +508,7 @@ $(function() {
         try {
           results = file.split("Locations:")[1].split("Playthrough:")[0].split('\n').filter(el => el.trim() != "");
           if (file.includes("File Select Hash:")) {
-            state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "");
+            state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "").map(el => el.trim());
           }
           hints = [];
           if (file.includes("Death Mountain Crater (Bombable Wall)")) {
