@@ -98,6 +98,8 @@ var importantItems = [
   'Triforce',
 ];
 
+var inSpoilerExceptions = ['Check Pedestal (Stones)', 'Check Pedestal (Medallions)', 'Light Arrows Hint', 'Ganon'];
+
 var warpSongs = ['Minuet of Forest', 'Bolero of Fire', 'Serenade of Water', 'Nocturne of Shadow', 'Requiem of Spirit', 'Prelude of Light'];
 
 var songTargets = {
