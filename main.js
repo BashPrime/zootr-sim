@@ -46,10 +46,30 @@ function getInitialState() {
     gossipHints: {},
 
     knownHints: {},
+    
+    checkedHints: [],
   };
 }
 
 var state = getInitialState();
+
+function parseHint(hint) {
+  var hintLoc = [];
+  var hintItem = [];
+  for (loc in hintLocationsMeanings) {
+    if (hint.includes(loc)) {
+      hintLoc = hintLocationsMeanings[loc];
+      break;
+    }
+  }
+  for (item in hintItemsMeanings) {
+    if (hint.includes(item)) {
+      hintItem = hintItemsMeanings[item];
+      break;
+    }
+  }
+  return [hintLoc, hintItem];
+}
 
 $(function() {  
   
@@ -296,19 +316,22 @@ $(function() {
     $('.hints span').remove();
     $('.hints br').remove();
     $('.hints a').remove();
+    $('.hints table').remove();
+    $('.hints tr').remove();
+    $('.hints td').remove();
     $('<span>AVAILABLE HINTS</span><br/><br/>').appendTo('.hints');
     if (!('Kokiri Forest' in state.gossipHints)) {
       $('<span>Hints unavailable! Use a log from a newer version to access them.</span><br/><br/>').appendTo('.hints');
     }
     else if (state.currentRegion in state.gossipHints) {
-      if (!('Generic Grotto' in state.knownHints)) {
+      if ($.inArray('Generic Grotto', state.checkedHints) == -1) {
         $('<a class="hint" id="Generic Grotto">Generic Grotto</span><br/>').appendTo('.hints');
       }
       else {
         $('<span class="hint checked" id="Generic Grotto">Generic Grotto</span><br/>').appendTo('.hints');
       }
       for (stone in state.gossipHints[state.currentRegion]) {
-        if (!((state.currentRegion + ' ' + stone) in state.knownHints)) {
+        if ($.inArray(state.currentRegion + ' ' + stone, state.checkedHints) == -1) {
           $('<a class="hint" id="'+stone+'">'+stone+'</span><br/>').appendTo('.hints');
         }
         else {
@@ -317,10 +340,11 @@ $(function() {
       }
       $('<br/>').appendTo('.hints');
     }
-    $('<span>CHECKED HINTS</span><br/><br/>').appendTo('.hints');
+    $('<span>KNOWN HINTS</span><br/><br/><table class="hint-table">').appendTo('.hints');
     for (stone in state.knownHints) {
-      $('<span>'+stone+': '+state.knownHints[stone]+'</span><br/>').appendTo('.hints');
+      $('<tr><td class="hint-loc">'+stone+':</td><td class="hint-item">'+state.knownHints[stone].join(', ')+'</td></tr><br/>').appendTo('.hints');
     }
+    $('</table><br/>').appendTo('.hints');
   };
   
   var updateForage = function() {
@@ -416,12 +440,29 @@ $(function() {
 
   $(document).on('click', 'a.hint', function(event) {
     stone = event.target.id;
+    var hint = '';
     if (stone == 'Generic Grotto') {
-      state.knownHints['Generic Grotto'] = state.gossipHints['Generic Grotto'];
+      hint = state.gossipHints[stone];
+      state.checkedHints.push(stone);
     }
     else {
-      state.knownHints[state.currentRegion + ' ' + stone] = state.gossipHints[state.currentRegion][stone];
+      hint = state.gossipHints[state.currentRegion][stone];
+      state.checkedHints.push(state.currentRegion + ' ' + stone);
     }
+    console.log(hint);
+    
+    hintLoc = parseHint(hint)[0];
+    hintItem = parseHint(hint)[1];
+    if (hintLoc != '' && hintItem != '') {
+      if (!(hintLoc in state.knownHints)) {
+        state.knownHints[hintLoc] = [hintItem];
+      }
+      else {
+        state.knownHints[hintLoc].push(hintItem);
+      }
+    }
+    $('.lastchecked span').remove();
+    $('<span>' + hint + '</span>').appendTo('.lastchecked');
     updateHints();
     updateForage();
   });
