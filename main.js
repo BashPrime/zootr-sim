@@ -2,6 +2,8 @@ var darkModeOn = false;
 
 function getInitialState() {
   return {
+    seed: '',
+    
     playing: false,
 
     fsHash: [],
@@ -28,9 +30,7 @@ function getInitialState() {
     checkedLocations: [],
     
     medallions: {},
-    
-    lighthint: '',
-    
+  
     knownMedallions: {
       'Deku Tree': '???',
       'Dodongos Cavern': '???',
@@ -48,6 +48,10 @@ function getInitialState() {
     knownHints: {},
     
     checkedHints: [],
+    
+    finished: false,
+    
+    route: '',
   };
 }
 
@@ -105,8 +109,7 @@ $(function() {
     <div class="main current"><div class="currentinner"></div></div>\
     <div class="main hints"></div>\
     <div class="main skulls"><div class="skullsinner"></div></div>\
-    <div class="main route"></div><br/>\
-    <br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
+    <br/><br/><a class="button' + (disableUndo ? ' disabled-button' : '') + '" id="undo">Undo</a><a class="button" id="reset">This seed sucks, throw it away</a></div>').appendTo('body');
     drawFooter();
   };
   
@@ -122,6 +125,22 @@ $(function() {
     drawFooter();
   };
   
+  var displayEndScreen = function() {
+    $('div').remove();
+    $('a').remove();
+    $('br').remove();
+    drawHeader();
+    var elusiveItems = ['Longshot', ];
+    var backString = 'Take me back';
+    $('<div class="mainbody"><h1>Congratulations!</h1>\
+    <span>Total checks made:</span>\
+    <h1 style="margin-top:0;">'+state.numChecksMade+'/'+state.totalChecks+'</h1>\
+    <h2>Route</h2><div class="routecontainer"><div class="route main">'+state.route.replace(/(?:\r\n|\r|\n)/g, '<br/>')+'</div>\
+    <div class="routebuttons"><a class="button" id="copyroute">Copy to clipboard</a><br/><br/><a class="button" id="saveroute">Save to .txt</a></div></div><br/><br/>\
+    <a class="button" id="reset">Another one</a><a class="button" id="unend">'+backString+'</a></div>').appendTo('body');
+    drawFooter();
+  };
+  
   localforage.getItem('dark-mode-on', function(err, val) {
     if (val) {
       darkModeOn = val;
@@ -134,10 +153,13 @@ $(function() {
   teardownPageForEnd();
   
   localforage.getItem('state', function (err, val) {
-    if (val && val.playing) {
+    if (val && val.finished) {
+      state = val;
+      displayEndScreen();
+    }
+    else if (val && val.playing) {
       state = val;
       setupPageForPlaying();
-      localforage.getItem('route', (err, val) => $('.route').html(val));
       updateAccessible();
       updateCollected();
       updateMedallions();
@@ -166,6 +188,9 @@ $(function() {
           results;
       if (file && file.length) {
         try {
+          if (file.includes('Seed: ')) {
+            state.seed = file.split('Seed:')[1].split('\n')[0].trim();
+          }
           results = file.split("Locations:")[1].split("Playthrough:")[0].split('\n').filter(el => el.trim() != "");
           if (file.includes("File Select Hash:")) {
             state.fsHash = file.split("File Select Hash:")[1].split("Settings")[0].split('\n').filter(el => el.trim() != "").map(el => el.trim());
@@ -214,7 +239,7 @@ $(function() {
           updateCollected();
           updateMedallions();
           updateHints();
-          $('<span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
+          state.route += '---- CHILD ' + state.currentChild + ' ----\n\n';
           updateForage();
         }
         catch(err) {
@@ -290,7 +315,6 @@ $(function() {
     drawItems();
     $('<div class="dungeons"></div>').appendTo('.tracker');
     drawDungeons();
-    $('<br/><br/><span>' + state.numChecksMade + '/' + state.totalChecks + ' checks made</span>').appendTo('.tracker');
     ownedChus = state.currentItemsAll.filter(item => item.includes('Bombchus'));
     chuCount = ownedChus.map(item => parseInt(item.substring(item.lastIndexOf('(') + 1, item.lastIndexOf(')')), 10)).reduce((a,b) => a + b, 0);
     if (state.usedChus > chuCount) {
@@ -298,9 +322,6 @@ $(function() {
     }
     if (chuCount > 0) {
       $('<br/><br/><span>Bombchus: ' + (chuCount - state.usedChus) + '</span> <a class="useChu">Use Bombchu</a>').appendTo('.tracker');
-    }
-    if (state.lighthint != '') {
-      $('<br/><br/><span>Light Arrows Hint: ' + state.lighthint + '</span>').appendTo('.tracker');
     }
   };
   
@@ -349,7 +370,6 @@ $(function() {
   
   var updateForage = function() {
     localforage.setItem('state', state);
-    localforage.setItem('route', $('.route').html());
   };
 
   $(document).on('click', 'a.useChu', function(event) {
@@ -384,11 +404,17 @@ $(function() {
     else if (event.target.id == 'Light Arrows Hint') {
       state.checkedLocations.push(event.target.id);
       lightlocation = Object.keys(state.testSpoiler).find(key => state.testSpoiler[key] === 'Light Arrows');
-      state.lighthint = Object.keys(locationsByRegionAdult).find(key => $.inArray(lightlocation, locationsByRegionAdult[key]) != -1);
-      if (typeof state.lighthint == 'undefined') {
-        state.lighthint = Object.keys(locationsByRegionChild).find(key => $.inArray(lightlocation, locationsByRegionChild[key]) != -1);
+      var lighthint = Object.keys(locationsByRegionAdult).find(key => $.inArray(lightlocation, locationsByRegionAdult[key]) != -1);
+      if (typeof lighthint == 'undefined') {
+        lighthint = Object.keys(locationsByRegionChild).find(key => $.inArray(lightlocation, locationsByRegionChild[key]) != -1);
       }
-      $('<span>Light Arrows Hint ('+state.lighthint+')</span><br/>').appendTo('.route');
+      if (!(lighthint in state.knownHints)) {
+        state.knownHints[lighthint] = ['Light Arrows'];
+      }
+      else {
+        state.knownHints[lighthint].push('Light Arrows');
+      }
+      state.route += 'Light Arrows Hint ('+lighthint+')\n';
     }
     else if (event.target.id == 'Ganon') {
       if ($.inArray('Light Arrows', state.currentItemsAll) == -1) {
@@ -396,10 +422,8 @@ $(function() {
         $('<span>Not without Light Arrows!</span>').appendTo('.lastchecked');
       }
       else {
-        $('.lastchecked span').remove();
-        $('<span>Congratulations!</span>').appendTo('.lastchecked');
-        $('<span>Ganon (Triforce)</span><br/><br/>').appendTo('.route');
-        $('<span>Total Checks Made: '+state.numChecksMade+'/'+state.totalChecks+'</span><br/>').appendTo('.route');
+        state.finished = true;
+        displayEndScreen();
       }
     }
     else if (!(event.target.id in state.testSpoiler) && event.target.id.startsWith('GS ')) {
@@ -418,8 +442,7 @@ $(function() {
       if ($.inArray(item, importantItems) != -1) {
         state.currentItemsImportant.push(item);
       }
-      toAppend = '<span>' + event.target.id + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '</span><br/>';
-      $(toAppend).appendTo('.route');
+      state.route += event.target.id + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '\n';
       $('.lastchecked span').remove();
       $('<span>' + event.target.id + ': ' + item + '</span>').appendTo('.lastchecked');
       if (event.target.id in regionChangingChecks) {
@@ -449,7 +472,6 @@ $(function() {
       hint = state.gossipHints[state.currentRegion][stone];
       state.checkedHints.push(state.currentRegion + ' ' + stone);
     }
-    console.log(hint);
     
     hintLoc = parseHint(hint)[0];
     hintItem = parseHint(hint)[1];
@@ -470,25 +492,25 @@ $(function() {
   $(document).on('click', 'a.entrance', function(event) {
     if (event.target.id == 'Pull Master Sword') {
       state.currentAdult++;
-      $('<br/><span>---- ADULT ' + state.currentAdult + ' ----</span><br/><br/>').appendTo('.route');
+      state.route += '\n---- ADULT ' + state.currentAdult + ' ----\n\n';
       state.currentAge = 'Adult';
     }
     else if (event.target.id == 'Place Master Sword') {
       state.currentChild++;
-      $('<br/><span>---- CHILD ' + state.currentChild + ' ----</span><br/><br/>').appendTo('.route');
+      state.route += '\n---- CHILD ' + state.currentChild + ' ----\n\n';
       state.currentAge = 'Child';
     }
     else if (event.target.id == 'Savewarp Child') {
       state.currentRegion = 'Kokiri Forest';
-      $('<span>Savewarp</span><br/>').appendTo('.route');
+      state.route += 'Savewarp\n';
     }
     else if (event.target.id == 'Savewarp Adult') {
       state.currentRegion = 'Temple of Time';
-      $('<span>Savewarp</span><br/>').appendTo('.route');
+      state.route += 'Savewarp\n';
     }
     else if (event.target.id in songTargets) {
       state.currentRegion = songTargets[event.target.id];
-      $('<span>Play '+event.target.id+'</span><br/>').appendTo('.route');
+      state.route += 'Play '+event.target.id+'\n';
     }
     else if (state.currentRegion == 'Kokiri Forest' && event.target.id == 'Hyrule Field' && state.currentAge == 'Child' && $.inArray('Gift from Saria', state.checkedLocations) == -1) {
       state.checkedLocations.push('Gift from Saria');
@@ -503,8 +525,7 @@ $(function() {
         state.currentItemsImportant.push(item);
       }
       state.numChecksMade++;
-      toAppend = '<span>' + 'Gift from Saria' + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '</span><br/>';
-      $(toAppend).appendTo('.route');
+      state.route += 'Gift from Saria' + ($.inArray(item, importantItems) != -1 ? ' (' + item + ')' : '') + '\n';
       $('.lastchecked span').remove();
       $('<span>' + 'Gift from Saria' + ': ' + item + '</span>').appendTo('.lastchecked');
       state.currentRegion = event.target.id;
@@ -529,12 +550,6 @@ $(function() {
       else if (lastCheckedLocation.startsWith('GS ')) {
         state.currentItemsAll.splice(state.currentItemsAll.lastIndexOf('Gold Skulltula Token'));
       }
-      $($('.route span').get().reverse()).each(function() {
-        if ($(this).text().includes(lastCheckedLocation)) {
-          $(this).css('text-decoration', 'line-through');
-          return false;
-        }
-      });
       if (state.checkedLocations.length <= 1) {
         $('#undo').attr('class', 'button disabled-button');
       }
@@ -551,6 +566,28 @@ $(function() {
     state = getInitialState();
     updateForage();
     teardownPageForEnd();
+  });
+  
+  $(document).on('click', '#unend', function(event) {
+    state.finished = false;
+    updateForage();
+    setupPageForPlaying();
+    updateCollected();
+    updateAccessible();
+    updateHints();
+  });
+  
+  $(document).on('click', '#copyroute', function(event) {
+    $('.routebuttons span').remove();
+    $('<span id="copied" class="copied-anim">Copied!</span>').appendTo('.routebuttons');
+    window.getSelection().selectAllChildren(document.getElementsByClassName('route')[0]);
+    document.execCommand('copy');
+    document.getSelection().removeAllRanges();
+  });
+  
+  $(document).on('click', '#saveroute', function(event) {
+    var blob = new Blob([state.route.replace(/(?:\r\n|\r|\n)/g, '\r\n')], {type: "text/plain;charset=utf-8"});
+    window.saveAs(blob, "route.txt");
   });
   
   $(document).on('click', '#dark-mode-toggle', function(event) {

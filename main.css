@@ -242,6 +242,10 @@ a.button {
   color: #efefef;
 }
 
+a.button {
+  background-color: #0061ff;
+}
+
 a#reset {
   background-color:#ee0000;
 }
@@ -437,6 +441,43 @@ a.entrance::before {
 
 .hints {
   text-align: left;
+}
+
+.routecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:0;
+  margin:0;
+  padding:0;
+}
+
+.routebuttons {
+  border:0;
+  margin:0;
+  padding:10px;
+  width: 200px;
+  height: auto;
+}
+
+#copied {
+  position:absolute;
+  margin-top:-44px;
+  margin-left: 24px;
+  color: black;
+}
+
+.copied-anim {
+  animation: copied 1.2s forwards;
+}
+
+@keyframes copied {
+  0% {
+    color:black;
+  }
+  100% {
+    color: #efefef;
+  }
 }
 
 .footer {
