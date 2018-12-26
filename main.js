@@ -116,7 +116,7 @@ $(function() {
     $('br').remove();
     drawHeader();
     $('<div class="mainbody"><div class="start"><span class="header">Upload a spoiler log.</span><br/>\
-    <span class="subheader">Only guaranteed to work with tournament logs and some 3.0 logs (more support coming soon).</span><br/><br/>\
+    <span class="subheader">Only guaranteed to work with non-shopsanity 3.0 and current Dev logs (full 4.0 support coming after release).</span><br/><br/>\
     <input type=file id=files /><br/></div></div>').appendTo('body');
     $('#files').on('change', onFilesChanged);
     drawFooter();
