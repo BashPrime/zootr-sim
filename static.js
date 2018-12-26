@@ -103,7 +103,7 @@ var inSpoilerExceptions = ['Check Pedestal (Stones)', 'Check Pedestal (Medallion
 var warpSongs = ['Minuet of Forest', 'Bolero of Fire', 'Serenade of Water', 'Nocturne of Shadow', 'Requiem of Spirit', 'Prelude of Light'];
 
 var songTargets = {
-  'Minuet of Forest': 'Lost Woods',
+  'Minuet of Forest': 'Sacred Forest Meadow',
   'Bolero of Fire': 'Death Mountain Crater',
   'Serenade of Water': 'Lake Hylia',
   'Nocturne of Shadow': 'Above Graveyard',
