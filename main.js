@@ -51,45 +51,6 @@ function getInitialState() {
 
 var state = getInitialState();
 
-function getHashImage(item) {
-  return (
-      {
-    'Deku Stick': 'stick.png',
-    'Deku Nut': 'nut.png',
-    'Bow': 'bow.png',
-    'Slingshot': 'slingshot.png',
-    'Fairy Ocarina': 'fairyocarina.png',
-    'Bombchu': 'bombchu.png',
-    'Longshot': 'longshot.png',
-    'Boomerang': 'boomerang.png',
-    'Lens of Truth': 'lens.png',
-    'Beans': 'bean.png',
-    'Hammer': 'hammer.png',
-    'Bottled Fish': 'unknown-small.png',
-    'Bottled Milk': 'unknown-small.png',
-    'Mask of Truth': 'truth.png',
-    'SOLD OUT': 'unknown-small.png',
-    'Cucco': 'cucco.png',
-    'Mushroom': 'mushroom.png',
-    'Saw': 'saw.png',
-    'Frog': 'frog.png',
-    'Master Sword': 'sword2.png',
-    'Mirror Shield': 'shield3.png',
-    'Kokiri Tunic': 'greentunic.png',
-    'Hover Boots': 'hoverboots.png',
-    'Silver Gauntlets': 'lift2.png',
-    'Gold Scale': 'scale2.png',
-    'Stone of Agony': 'agony.png',
-    'Skull Token': 'skulltula.png',
-    'Heart Container': 'unknown-small.png',
-    'Boss Key': 'boss_key.png',
-    'Compass': 'unknown-small.png',
-    'Map': 'unknown-small.png',
-    'Big Magic': 'magic2.png',
-      }
-  )[item];
-}
-
 $(function() {  
   
   var drawHeader = function() {
@@ -98,8 +59,7 @@ $(function() {
     $('<span>ZooTR Sim</span>').appendTo('.title');
     var hashhtml = '<div class="hash">';
     for (var i = 0; i < state.fsHash.length; i++) {
-      hashhtml += '<div class="hash-item" id="' + state.fsHash[i] + '" style="background-image: url(\'images/'+getHashImage(state.fsHash[i])+'\')"></div>';
-      console.log(hashhtml);
+      hashhtml += '<div class="hash-item" id="' + state.fsHash[i] + '" style="background-image: url(\'images/'+hashImages[state.fsHash[i]]+'\')"></div>';
     }
     hashhtml += '</div>';
     $(hashhtml).appendTo('.headerbar');

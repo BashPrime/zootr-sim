@@ -100,6 +100,41 @@ var importantItems = [
 
 var inSpoilerExceptions = ['Check Pedestal (Stones)', 'Check Pedestal (Medallions)', 'Light Arrows Hint', 'Ganon'];
 
+hashImages = {
+    'Deku Stick': 'stick.png',
+    'Deku Nut': 'nut.png',
+    'Bow': 'bow.png',
+    'Slingshot': 'slingshot.png',
+    'Fairy Ocarina': 'fairyocarina.png',
+    'Bombchu': 'bombchu.png',
+    'Longshot': 'longshot.png',
+    'Boomerang': 'boomerang.png',
+    'Lens of Truth': 'lens.png',
+    'Beans': 'bean.png',
+    'Hammer': 'hammer.png',
+    'Bottled Fish': 'fish.png',
+    'Bottled Milk': 'milk.png',
+    'Mask of Truth': 'truth.png',
+    'SOLD OUT': 'soldout.png',
+    'Cucco': 'cucco.png',
+    'Mushroom': 'mushroom.png',
+    'Saw': 'saw.png',
+    'Frog': 'frog.png',
+    'Master Sword': 'sword2.png',
+    'Mirror Shield': 'shield3.png',
+    'Kokiri Tunic': 'greentunic.png',
+    'Hover Boots': 'hoverboots.png',
+    'Silver Gauntlets': 'lift2.png',
+    'Gold Scale': 'scale2.png',
+    'Stone of Agony': 'agony.png',
+    'Skull Token': 'skulltula.png',
+    'Heart Container': 'heartcontainer.png',
+    'Boss Key': 'boss_key.png',
+    'Compass': 'compass.png',
+    'Map': 'map.png',
+    'Big Magic': 'magic2.png',
+  };
+
 var warpSongs = ['Minuet of Forest', 'Bolero of Fire', 'Serenade of Water', 'Nocturne of Shadow', 'Requiem of Spirit', 'Prelude of Light'];
 
 var songTargets = {
