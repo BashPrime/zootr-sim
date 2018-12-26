@@ -580,6 +580,9 @@ $(function() {
   $(document).on('click', '#copyroute', function(event) {
     $('.routebuttons span').remove();
     $('<span id="copied" class="copied-anim">Copied!</span>').appendTo('.routebuttons');
+    $('.routebuttons span').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
+      $('.routebuttons span').remove();
+    });
     window.getSelection().selectAllChildren(document.getElementsByClassName('route')[0]);
     document.execCommand('copy');
     document.getSelection().removeAllRanges();
@@ -587,7 +590,7 @@ $(function() {
   
   $(document).on('click', '#saveroute', function(event) {
     var blob = new Blob([state.route.replace(/(?:\r\n|\r|\n)/g, '\r\n')], {type: "text/plain;charset=utf-8"});
-    window.saveAs(blob, "route.txt");
+    window.saveAs(blob, state.seed + "-route.txt");
   });
   
   $(document).on('click', '#dark-mode-toggle', function(event) {

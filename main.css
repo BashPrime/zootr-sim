@@ -467,8 +467,16 @@ a.entrance::before {
   color: black;
 }
 
+.dark-mode #copied {
+  color:#d2d2d2;
+}
+
 .copied-anim {
   animation: copied 1.2s forwards;
+}
+
+.dark-mode .copied-anim {
+  animation: copieddark 1.2s forwards;
 }
 
 @keyframes copied {
@@ -477,6 +485,15 @@ a.entrance::before {
   }
   100% {
     color: #efefef;
+  }
+}
+
+@keyframes copieddark {
+  0% {
+    color:#d2d2d2;
+  }
+  100% {
+    color: #222222;
   }
 }
 
