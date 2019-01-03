@@ -159,6 +159,24 @@ $(function() {
     }
     else if (val && val.playing) {
       state = val;
+      if (!state.fsHash) {
+        state.fsHash = [];
+      }
+      if (!state.gossipHints) {
+        state.gossipHints = {};
+      }
+      if (!state.knownHints) {
+        state.knownHints = {};
+      }
+      if (!state.checkedHints) {
+        state.checkedHints = [];
+      }
+      if (!state.finished) {
+        state.finished = false;
+      }
+      if (!state.route) {
+        state.route = '';
+      }
       setupPageForPlaying();
       updateAccessible();
       updateCollected();
